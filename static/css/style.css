@@ -1,0 +1,213 @@
+/* === Reset & Base Styles === */
+:root {
+  /* Primary Color Palette */
+  --moss-green: #6B8E5E;
+  --mocha-brown: #4B3621;
+  --taupe-beige: #D9C4B0;
+  --deep-olive: #556B2F;
+  --cream: #F5F0E6;
+  --soft-copper: #B86B4B;
+
+  /* Text Colors */
+  --text-primary: var(--mocha-brown);
+  --text-secondary: var(--deep-olive);
+  --text-light: var(--cream);
+
+  /* Background Colors */
+  --bg-primary: var(--taupe-beige);
+  --bg-secondary: var(--cream);
+  --bg-accent: var(--moss-green);
+
+  /* Buttons / UI Elements */
+  --button-bg: var(--soft-copper);
+  --button-hover: var(--mocha-brown);
+  --button-text: var(--cream);
+
+  /* Borders / Dividers */
+  --border-color: #C2B4A3;
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+/* === Typography === */
+h2 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 5px;
+  color: var(--text-secondary);
+}
+
+header h1 {
+  font-size: 4rem;
+  margin-bottom: 10px;
+  color: var(--soft-copper);
+  animation: fadeUp 1s ease-in-out;
+}
+
+header p {
+  color: var(--text-light);
+  font-size: 1em;
+}
+
+/* === Header === */
+header {
+  padding: 2.5%;
+  height: 100vh;
+  background: linear-gradient(
+    to right,
+    var(--mocha-brown), 
+    var(--mocha-brown),
+    #000000, 
+    #000000,
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0)
+  ), url('/static/images/front.png');
+  background-size: contain;
+  background-position: right;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+/* === Navbar === */
+#navbar {
+  height: 80px;
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(10px);
+  background-color: rgba(75, 54, 33, 0.8);
+  transition: top 0.5s;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.nav-links {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.nav-item a {
+  padding: 10px 15px;
+  font-size: 1.1rem;
+  color: var(--text-light);
+}
+
+#menu-toggle {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+}
+
+.menu-items {
+  display: flex;
+  gap: 15px;
+}
+
+/* === Logo === */
+.logo {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.logo img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+/* === Footer === */
+footer {
+  color: var(--text-light);
+  text-align: center;
+  padding: 30px 20px;
+  font-size: 0.9em;
+  background: var(--mocha-brown);
+}
+
+/* === Fade-in Animation === */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .menu-items {
+    text-align: center;
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    right: 0;
+    background-color: rgba(75, 54, 33, 0.95);
+    width: 100%;
+    padding: 10px 0;
+    z-index: 999;
+  }
+
+  .menu-items.active {
+    display: flex;
+  }
+
+  #menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: relative;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  .logo {
+    flex: 1;
+  }
+}
