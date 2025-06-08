@@ -1,0 +1,111 @@
+/* === Root Variables === */
+:root {
+  --mocha-brown: 75, 54, 33;
+  --taupe-beige: 217, 196, 176;
+  --cream: 245, 240, 230;
+  --soft-copper: 184, 107, 75;
+  --text-primary: var(--mocha-brown);
+  --text-light: var(--cream);
+  --bg-primary: var(--taupe-beige);
+  --button-bg: var(--soft-copper);
+  --button-hover: var(--mocha-brown);
+  --button-text: var(--cream);
+}
+
+/* === Header === */
+header {
+  font-family: "Radley", serif;
+  margin: 2%;
+  padding: 2.5%;
+  border-radius: 50px;
+  background-color: rgba(255, 221, 154, 0.518);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+header h1,
+header p {
+  max-width: 65%;
+  margin-bottom: 10px;
+}
+
+header h1 {
+  text-align: left;
+  font-weight: 400;
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: rgba(var(--soft-copper));
+  animation: fadeUp 1s ease-in-out;
+}
+
+header p {
+  text-align: left;
+  font-style: italic;
+  font-size: 1.4em;
+  color: rgba(var(--text-light));
+}
+
+/* === Main Content === */
+.about-wrapper {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  font-family: "Quicksand", sans-serif;
+  letter-spacing: 0.9px;
+  line-height: 1.5;
+  width: 25%;
+  max-width: 600px;
+  text-align: justify;
+}
+
+.pic {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* === Responsive === */
+@media (max-width: 800px) {
+  .about,
+  .about-wrapper {
+    width: 90%;
+    line-height: 1.25;
+    text-align: justify;
+  }
+
+  .about-wrapper {
+    justify-content: center;
+  }
+  header {
+    padding: 1rem;
+    border-radius: 20px;
+    box-shadow: none;
+  }
+
+  header h1,
+  header p {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  header h1 {
+    font-size: 2.5rem;
+  }
+
+  header p {
+    font-size: 1.2em;
+  }
+
+  .pic {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: none;
+  }
+}

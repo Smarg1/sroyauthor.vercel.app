@@ -3,65 +3,140 @@
   <head>
     <!-- setup -->
     <meta charset="UTF-8">
-    <title>Sangita Roy | Author</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="/static/js/script.js" defer></script>
+    <meta name="description" content="Discover the enchanting world of Sangita Roy, a nature-fiction author 
+    blending nature and imagination through fiction.">
+    <meta name="author" content="Sangita Roy">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#d9c4b0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sangita Roy | Author</title>
+    <meta name="generator" content="Smarg1 (Firefly)"/>
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self';
+      style-src 'self';
+      img-src 'self';
+      font-src 'self';
+      connect-src 'self';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+    
+    <!-- performance optimizations -->
+    <link rel="preload" as="style" href="/static/css/base.a9f3b2.css">
+    <link rel="preload" as="style" href="/static/css/index.a9f3b2.css">
+    <link rel="preload" as="image" href="/static/images/author.a9f3b2.webp" type="image/webp">
+    <link rel="preload" href="/static/fonts/Quicksand-Medium.a9f3b2.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/static/fonts/Radley-Regular.a9f3b2.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/static/fonts/Quicksand-Bold.a9f3b2.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/static/fonts/Radley-Italic.a9f3b2.woff2" as="font" type="font/woff2" crossorigin>
+
+    <!-- imports -->
+    <link rel="stylesheet" href="/static/css/base.a9f3b2.css">
+    <link rel="stylesheet" href="/static/css/index.a9f3b2.css">
+    <script src="/static/js/script.a9f3b2.js" defer></script>
+
+    <!-- SEO -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:url" content="https://sroyauthor.eu.org/">
+    <meta property="og:title" content="Sangita Roy | Author">
+    <meta property="og:description" content="Discover the enchanting world of Sangita Roy, a nature-fiction author 
+    whose stories blend the beauty of the natural world with the magic of imagination.">
+    <meta property="og:image" content="https://sroyauthor.eu.org/sp.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="sroyauthor">
+    <link rel="canonical" href="https://sroyauthor.eu.org/">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Sangita Roy",
+      "url": "https://sroyauthor.eu.org",
+      "jobTitle": "Author",
+      "sameAs": [],
+      "description": "Nature-fiction author blending the beauty of nature with imagination.",
+      "image": "https://sroyauthor.eu.org/sp.png"
+    }
+    </script>
 
     <!-- icons -->
-    <link rel="icon" type="image/png" href="/static/images/favicon" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/static/images/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/static/images/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/favicon/apple-touch-icon.png" />
-    <link rel="manifest" href="/static/images/favicon/site.webmanifest" />
-    <link rel="stylesheet" href="/static/css/style.css">
-
-    <!-- google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/static/images/favicon/favicon-96x96.a9f3b2.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/static/images/favicon/favicon.a9f3b2.svg" />
+    <link rel="shortcut icon" href="/static/images/favicon/favicon.a9f3b2.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/favicon/apple-touch-icon.a9f3b2.png" />
+    <link rel="manifest" href="/static/images/favicon/site.a9f3b2.webmanifest" />
   </head>
+  
   <body> 
+    <!-- Navbar -->
     <nav id="navbar">
-      <div class="nav-links">
-        <div class="logo">
-          <img 
-            src="/static/images/logo.png" 
-            srcset="/static/images/logo.png 1x, /static/images/logo@2.png 2x" 
-            alt="sroy logo">
-        </div>
-        <button id="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
-        <div id="menu-items" class="menu-items">
-          <div class="nav-item"><a href="#about">About</a></div>
-          <div class="nav-item"><a href="#work">Works</a></div>
-          <div class="nav-item"><a href="#blog">Blog</a></div>
-          <div class="nav-item"><a href="#contact">Contact</a></div>
-        </div>
+      <div class="logo">
+        <a href="/" aria-label="Home" title="Home">  
+          <img src="/static/images/icons/logo.a9f3b2.webp" alt="sroy logo" fetchpriority="high" height="80" width="133"/>
+        </a>
+      </div>
+      <button id="menu-toggle" aria-label="Toggle Menu" alt="Toggle Menu" title="Toggle Menu">
+        <img src="/static/images/icons/bars.a9f3b2.svg" alt="Toggle Menu" fetchpriority="high"/>
+      </button>
+      <div id="menu-items" class="menu-items">
+        <div class="nav-item"><a href="#about">About</a></div>
+        <div class="nav-item"><a href="/works/">Works</a></div>
+        <div class="nav-item"><a href="/blog/">Blog</a></div>
+        <div class="nav-item"><a href="#contact">Contact</a></div>
       </div>
     </nav>  
 
-    <header>
-      <div class="container fade-in">
-        <h1 class="radley-regular">Where Fiction and the Soul of Nature Converge</h1>
-        <p class="radley-italic">Exploring the intricate bond between humanity and the earth’s secrets.</p>
-      </div>
+    <!-- Header -->
+    <header class="fade-in">
+        <h1>Where Fiction and the Soul of Nature Converge</h1>
+        <p>Exploring the intricate bond between humanity and the earth’s secrets.</p>
+        <a href="/works/"><button>Explore</button></a>
     </header>
+
     <main>
       <section>
-        <div class="container" id="about">
-          <h2>About Me</h2>
-          <p>I'm Sangita Roy, an author and poet with a passion for weaving tales that resonate with the heart and soul. My writing journey is a reflection of my love for nature, culture, and the human experience.
-            My works delve into the intricate relationship between humanity and the natural world, exploring themes of love, loss, and the beauty of existence.</p>
+        <h2 class="heading" id="about">About</h2>
+        <div class="about-wrapper">
+          <img
+           src="/static/images/author.a9f3b2.webp"
+           alt="author picture" 
+           class="pic" 
+           width="439" 
+           height="598" 
+           fetchpriority="high" 
+           decoding="async"/>
+          <p class="about"><b>Sangita Roy</b>, is an avid nature lover, literature enthusiast and a qualified plant breeder. 
+            Her novel <b>Zoey & The Spirit of Juniper</b> gained notable recognition at the World Book Fair and the prestigious 
+            Frankfurt Book Fair 2024, marking a significant milestone in her literary journey. 
+            Her prose and poetries have been widely published in national and international journals and anthologies. She continues 
+            refining her works that linger in the minds of readers, leaving echoes of intrigue and wonder.</p>
         </div>
       </section>
     </main>
-    <footer>
+
+    <footer class="contact" id="contact">
       <p>&copy; 2025 Sangita Roy. All rights reserved.</p> 
       <div class="social-icons">
-        <a href="https://www.instagram.com/sroyauthor/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.facebook.com/sroyauthor" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.linkedin.com/in/sangita-roy-067a88342/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://linktr.ee/sroyauthor" target="_blank" aria-label="Linktree"><i class="fas fa-link"></i></a>
+        <a href="https://www.instagram.com/sroyauthor/" target="_blank" aria-label="Instagram" title="Instagram">
+          <img src="/static/images/icons/instagram-brands.a9f3b2.svg" alt="Instagram" />
+        </a>
+        <a href="https://www.facebook.com/sroyauthor" target="_blank" aria-label="Facebook" title="Facebook">
+          <img src="/static/images/icons/square-facebook-brands.a9f3b2.svg" alt="Facebook" />
+        </a>
+        <a href="https://www.linkedin.com/in/sangita-roy-067a88342/" target="_blank" aria-label="LinkedIn" title="LinkedIn">
+          <img src="/static/images/icons/linkedin-brands.a9f3b2.svg" alt="LinkedIn" />
+        </a>
+        <a href="https://linktr.ee/sroyauthor" target="_blank" aria-label="Linktree" title="Linktree">
+          <img src="/static/images/icons/linktree-logo-icon.a9f3b2.svg" alt="Linktree" />
+        </a>
+        <a href="mailto:sroy.hussain@gmail.com" aria-label="Email" title="Email">
+          <img src="/static/images/icons/envelope-solid.a9f3b2.svg" alt="Email" />
+        </a>
+        <a href="https://www.goodreads.com/sangitaroy" target="_blank" aria-label="Goodreads" title="Goodreads">
+          <img src="/static/images/icons/goodreads-brands-solid.a9f3b2.svg" alt="Goodreads" />
+        </a>
       </div>
     </footer>
   </body>
