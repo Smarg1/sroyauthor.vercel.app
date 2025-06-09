@@ -1,9 +1,0 @@
-Flask
-flask-compress
-flask-limiter
-flask-caching
-orjson
-gunicorn
-flask-cors
-flask-socketio
-gunicorn
