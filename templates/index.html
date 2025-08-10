@@ -25,8 +25,9 @@
     
     <!-- performance optimizations -->
     <link rel="preload" as="style" href="/static/css/base.a9f3b2.css">
-    <link rel="preload" as="style" href="/static/css/index.a9f3b2.css">
-    <link rel="preload" as="image" href="/static/images/author.a9f3b2.webp" type="image/webp">
+    <link rel="preload" as="style" href="/static/css/index.e4c1d7.css">
+    <link rel="preload" as="image" href="/static/images/author.e4c1d7.webp" type="image/webp">
+    <link rel="preload" as="image" href="/static/images/zoey.e4c1d7.webp" type="image/webp">
     <link rel="preload" href="/static/fonts/Quicksand-Medium.a9f3b2.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/static/fonts/Radley-Regular.a9f3b2.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/static/fonts/Quicksand-Bold.a9f3b2.woff2" as="font" type="font/woff2" crossorigin>
@@ -34,7 +35,7 @@
 
     <!-- imports -->
     <link rel="stylesheet" href="/static/css/base.a9f3b2.css">
-    <link rel="stylesheet" href="/static/css/index.a9f3b2.css">
+    <link rel="stylesheet" href="/static/css/index.e4c1d7.css">
     <script src="/static/js/script.a9f3b2.js" defer></script>
 
     <!-- SEO -->
@@ -88,19 +89,44 @@
       </div>
     </nav>  
 
-    <!-- Header -->
-    <header class="fade-in">
-        <h1>Where Fiction and the Soul of Nature Converge</h1>
-        <p>Exploring the intricate bond between humanity and the earth’s secrets.</p>
-        <a href="/works/"><button>Explore</button></a>
-    </header>
-
     <main>
+      <header class="fade-in">
+          <h1>Where Fiction and the Soul of Nature Converge</h1>
+          <p>Exploring the intricate bond between humanity and the earth’s secrets.</p>
+          <a href="#works"><button>Explore</button></a>
+      </header>
+      <section class="works" id="works">
+        <h2 class="heading">Works</h2>
+        <button class="scroll-btn left" aria-label="Scroll Left">
+          <img src="/static/images/icons/left.e4c1d7.svg" alt="Left Scroll" fetchpriority="high"/>
+        </button>
+          <div class="works-wrapper">
+            <div class="work-item">
+              <div class="flip-container">
+                <div class="flipper">
+                  <div class="front">
+                    <img src="/static/images/zoey.e4c1d7.webp" alt="Zoey & The Spirit of Juniper" fetchpriority="high" width="219" height="350" />
+                  </div>
+                  <div class="back">
+                    <a href="/works/zoey/" rel="noopener noreferrer">
+                      <h3>Zoey & The Spirit of Juniper</h3>
+                      <p>A captivating tale that intertwines the magic of nature with the journey of self-discovery.</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <button class="scroll-btn right" aria-label="Scroll Right">
+          <img src="/static/images/icons/right.e4c1d7.svg" alt="Right Scroll" fetchpriority="high"/>
+        </button>
+      </div>
+      </section>
       <section>
         <h2 class="heading" id="about">About</h2>
         <div class="about-wrapper">
           <img
-           src="/static/images/author.a9f3b2.webp"
+           src="/static/images/author.e4c1d7.webp"
            alt="author picture" 
            class="pic" 
            width="439" 
