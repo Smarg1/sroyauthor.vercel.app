@@ -1,0 +1,31 @@
+{
+  "_main.4qtMwZW4.js": {
+    "file": "assets/main.4qtMwZW4.js",
+    "name": "main",
+    "imports": [
+      "_script.CcV_T4Gp.js"
+    ],
+    "css": [
+      "assets/main.CSCPKJRL.css"
+    ]
+  },
+  "_main.CSCPKJRL.css": {
+    "file": "assets/main.CSCPKJRL.css",
+    "src": "_main.CSCPKJRL.css"
+  },
+  "_script.C_fnaEGV.css": {
+    "file": "assets/script.C_fnaEGV.css",
+    "src": "_script.C_fnaEGV.css"
+  },
+  "_script.CcV_T4Gp.js": {
+    "file": "assets/script.CcV_T4Gp.js",
+    "name": "script",
+    "css": [
+      "assets/script.C_fnaEGV.css"
+    ]
+  },
+  "index.html": {
+    "file": "assets/main.CkxvU5zQ.css",
+    "src": "index.html"
+  }
+}

@@ -24,18 +24,10 @@
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
     
     <!-- performance optimizations -->
-    <link rel="preload" as="style" href="public/css/base.css">
-    <link rel="preload" as="style" href="public/css/index.css">
-    <link rel="preload" as="image" href="public/images/author.webp" type="image/webp">
-    <link rel="preload" href="public/fonts/Quicksand-Medium.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="public/fonts/Radley-Regular.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="public/fonts/Quicksand-Bold.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="public/fonts/Radley-Italic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" as="image" href="/images/author.webp" type="image/webp">
 
     <!-- imports -->
-    <link rel="stylesheet" href="public/css/base.css">
-    <link rel="stylesheet" href="public/css/index.css">
-    <script src="public/js/script.js" defer></script>
+    <script type="module" src="/src/index.js"></script>
 
     <!-- SEO -->
     <meta name="twitter:card" content="summary_large_image">
@@ -62,11 +54,11 @@
     </script>
 
     <!-- icons -->
-    <link rel="icon" type="image/png" href="public/images/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="public/images/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="public/images/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="public/images/favicon/apple-touch-icon.png" />
-    <link rel="manifest" href="public/images/favicon/site.webmanifest" />
+    <link rel="icon" type="image/png" href="/images/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/images/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="/images/favicon/site.webmanifest" />
   </head>
   
   <body> 
@@ -74,11 +66,11 @@
     <nav id="navbar">
       <div class="logo">
         <a href="/" aria-label="Home" title="Home">  
-          <img src="public/images/icons/logo.webp" alt="sroy logo" fetchpriority="high" height="80" width="133"/>
+          <img src="/images/icons/logo.webp" alt="sroy logo" fetchpriority="high" height="80" width="133"/>
         </a>
       </div>
       <button id="menu-toggle" aria-label="Toggle Menu" alt="Toggle Menu" title="Toggle Menu">
-        <img src="public/images/icons/bars.svg" alt="Toggle Menu" fetchpriority="high"/>
+        <img src="/images/icons/bars.svg" alt="Toggle Menu" fetchpriority="high"/>
       </button>
       <div id="menu-items" class="menu-items">
         <div class="nav-item"><a href="#about">About</a></div>
@@ -100,7 +92,7 @@
         <h2 class="heading" id="about">About</h2>
         <div class="about-wrapper">
           <img
-           src="public/images/author.webp"
+           src="/images/author.webp"
            alt="author picture" 
            class="pic" 
            width="439" 
@@ -120,22 +112,22 @@
       <p>&copy; 2025 Sangita Roy. All rights reserved.</p> 
       <div class="social-icons">
         <a href="https://www.instagram.com/sroyauthor/" target="_blank" aria-label="Instagram" title="Instagram">
-          <img src="public/images/icons/instagram-brands.svg" alt="Instagram" />
+          <img src="/images/icons/instagram-brands.svg" alt="Instagram" />
         </a>
         <a href="https://www.facebook.com/sroyauthor" target="_blank" aria-label="Facebook" title="Facebook">
-          <img src="public/images/icons/square-facebook-brands.svg" alt="Facebook" />
+          <img src="/images/icons/square-facebook-brands.svg" alt="Facebook" />
         </a>
         <a href="https://www.linkedin.com/in/sangita-roy-067a88342/" target="_blank" aria-label="LinkedIn" title="LinkedIn">
-          <img src="public/images/icons/linkedin-brands.svg" alt="LinkedIn" />
+          <img src="/images/icons/linkedin-brands.svg" alt="LinkedIn" />
         </a>
         <a href="https://linktr.ee/sroyauthor" target="_blank" aria-label="Linktree" title="Linktree">
-          <img src="public/images/icons/linktree-logo-icon.svg" alt="Linktree" />
+          <img src="/images/icons/linktree-logo-icon.svg" alt="Linktree" />
         </a>
         <a href="mailto:sroy.hussain@gmail.com" aria-label="Email" title="Email">
-          <img src="public/images/icons/envelope-solid.svg" alt="Email" />
+          <img src="/images/icons/envelope-solid.svg" alt="Email" />
         </a>
         <a href="https://www.goodreads.com/sangitaroy" target="_blank" aria-label="Goodreads" title="Goodreads">
-          <img src="public/images/icons/goodreads-brands-solid.svg" alt="Goodreads" />
+          <img src="/images/icons/goodreads-brands-solid.svg" alt="Goodreads" />
         </a>
       </div>
     </footer>
