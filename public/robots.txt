@@ -4,5 +4,5 @@ Disallow: /private/
 Disallow: /admin/
 Allow: /
 
-# Sitemap location (helps search engines find your sitemap)
-Sitemap: https://sroyauthor.eu.org/sitemap.xml
+# Sitemap location
+Sitemap: https://sroyauthor.vercel.app/sitemap.xml

@@ -16,8 +16,8 @@ window.addEventListener("load", () => {
 
 // === Constants & Cached DOM ===
 let navbar, toggleBtn, menu, icon;
-const barsIcon = "../static/images/icons/bars.a9f3b2.svg";
-const closeIcon = "../static/images/icons/close.a9f3b2.svg";
+const barsIcon = "../public/images/icons/bars.svg";
+const closeIcon = "../public/images/icons/close.svg";
 
 let scrollTimeout;
 let lastScrollTop = 0;
@@ -40,7 +40,7 @@ const appearOnScroll = new IntersectionObserver((entries, observer) => {
 // === Utility Functions ===
 function setIcon() {
   if (icon) {
-    icon.src = icon.src.endsWith("bars.a9f3b2.svg") ? closeIcon : barsIcon;
+    icon.src = icon.src.endsWith("bars.svg") ? closeIcon : barsIcon;
   }
 }
 

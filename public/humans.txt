@@ -2,13 +2,13 @@ User-agent: *
 /* TEAM */
 Author: Sangita Roy
 Design and Development: smarg1
-Website: https://sroyauthor.eu.org
+Website: https://sroyauthor.vercel.app
 
 /* THANKS */
 Special thanks to the following resources:
 - Fonts from Google Fonts
 - Icons from Font Awesome
-- Hosting by Oracle Cloud infrastructure (OCI)
+- Hosting by Oracle Cloud infrastructure (OCI) and Vercel
 
 /* SITE */
-Last update: 19 May 2025
+Last update: 17 August 2025
