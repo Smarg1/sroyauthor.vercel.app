@@ -1,27 +1,27 @@
 {
-  "_main.4qtMwZW4.js": {
-    "file": "assets/main.4qtMwZW4.js",
+  "_main.CSCPKJRL.css": {
+    "file": "assets/main.CSCPKJRL.css",
+    "src": "_main.CSCPKJRL.css"
+  },
+  "_main.VruXqc5B.js": {
+    "file": "assets/main.VruXqc5B.js",
     "name": "main",
     "imports": [
-      "_script.CcV_T4Gp.js"
+      "_script.BoTukv7T.js"
     ],
     "css": [
       "assets/main.CSCPKJRL.css"
     ]
   },
-  "_main.CSCPKJRL.css": {
-    "file": "assets/main.CSCPKJRL.css",
-    "src": "_main.CSCPKJRL.css"
+  "_script.BmXS7GVF.css": {
+    "file": "assets/script.BmXS7GVF.css",
+    "src": "_script.BmXS7GVF.css"
   },
-  "_script.C_fnaEGV.css": {
-    "file": "assets/script.C_fnaEGV.css",
-    "src": "_script.C_fnaEGV.css"
-  },
-  "_script.CcV_T4Gp.js": {
-    "file": "assets/script.CcV_T4Gp.js",
+  "_script.BoTukv7T.js": {
+    "file": "assets/script.BoTukv7T.js",
     "name": "script",
     "css": [
-      "assets/script.C_fnaEGV.css"
+      "assets/script.BmXS7GVF.css"
     ]
   },
   "index.html": {

@@ -10,17 +10,13 @@ window.addEventListener("load", () => {
       "%cUnless you know exactly what you're doing, close this window and stay safe.",
       "font-size: 14px;"
     );
-    // window.scrollTo(0, 0);
   }, 0);
 });
 
 // === Constants & Cached DOM ===
-let navbar, toggleBtn, menu, icon;
-const barsIcon = "../src/images/icons/bars.svg";
-const closeIcon = "../src/images/icons/close.svg";
-
-let scrollTimeout;
-let lastScrollTop = 0;
+let toggleBtn, menu, icon;
+const barsIcon = "/images/icons/bars.svg";
+const closeIcon = "/images/icons/close.svg";
 
 // === Intersection Observer for fade-in elements ===
 const appearOptions = {
@@ -44,45 +40,7 @@ function setIcon() {
   }
 }
 
-function closeMenuOnScroll() {
-  if (menu?.classList.contains("active")) {
-    menu.classList.remove("active");
-    toggleBtn?.classList.add("open");
-    setIcon();
-  }
-}
-
-// === Device Detection ===
-function isMobileDevice() {
-  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
-// === Scroll Logic with Class Toggle for Better Performance ===
-function scrollLogic() {
-  const currentScroll = window.scrollY;
-  if (navbar) {
-    if (currentScroll > lastScrollTop) {
-      navbar.classList.add("hidden");
-    } else {
-      navbar.classList.remove("hidden");
-    }
-  }
-  lastScrollTop = Math.max(currentScroll, 0);
-  closeMenuOnScroll();
-}
-
-// === Scroll Handler with Conditional RAF on Desktop ===
-function handleScroll() {
-  if (isMobileDevice()) {
-    // Run directly on mobile to avoid RAF overhead
-    scrollLogic();
-  } else {
-    // Use RAF on desktop for smoothness
-    requestAnimationFrame(scrollLogic);
-  }
-}
-
-// === Initialize Fade-in Elements with Deferred Execution ===
+// === Initialize Fade-in Elements ===
 function initFadeIn() {
   const faders = document.querySelectorAll(".fade-in");
   if ("requestIdleCallback" in window) {
@@ -96,7 +54,7 @@ function initFadeIn() {
   }
 }
 
-// === Attach Navigation Link Handlers Deferred ===
+// === Attach Navigation Link Handlers ===
 function attachNavLinkHandlers() {
   document.querySelectorAll(".nav-item a").forEach(link => {
     link.addEventListener("click", () => {
@@ -120,7 +78,6 @@ function attachToggleHandler() {
 
 // === DOM Ready Initialization ===
 window.addEventListener("DOMContentLoaded", () => {
-  navbar = document.getElementById("navbar");
   toggleBtn = document.getElementById("menu-toggle");
   menu = document.querySelector(".menu-items");
   icon = toggleBtn?.querySelector("img");
@@ -138,17 +95,3 @@ window.addEventListener("DOMContentLoaded", () => {
     setTimeout(initDeferred, 100);
   }
 });
-
-// === Scroll Throttle with Passive Event Listener ===
-window.addEventListener(
-  "scroll",
-  () => {
-    if (!scrollTimeout) {
-      scrollTimeout = setTimeout(() => {
-        handleScroll();
-        scrollTimeout = null;
-      }, 100);
-    }
-  },
-  { passive: true }
-);
