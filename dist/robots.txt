@@ -1,8 +1,0 @@
-# Allow all search engines to crawl all pages
-User-agent: *
-Disallow: /private/
-Disallow: /admin/
-Allow: /
-
-# Sitemap location
-Sitemap: https://sroyauthor.vercel.app/sitemap.xml
