@@ -73,6 +73,8 @@ html {
   padding: 0 20px;
   background-color: rgba(var(--text-primary), 0.8);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  flex-wrap: wrap;
 }
 
 
@@ -234,7 +236,8 @@ footer {
     width: 100%;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(var(--text-primary), 0.95);
+    background-color: rgba(var(--text-primary), 0.8);
+    backdrop-filter: blur(10px);
     overflow: hidden;
     max-height: 0;
     padding: 0;

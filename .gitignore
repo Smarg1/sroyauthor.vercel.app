@@ -1,5 +1,6 @@
 /node_modules/
 /dist/
+/sroyauthor.vercel.app-Dev/
 /build/
 .env
 .env.local
