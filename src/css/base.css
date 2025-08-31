@@ -33,28 +33,28 @@ html {
 /* === Typography === */
 @font-face {
   font-family: "Quicksand";
-  src: url('../fonts/Quicksand-Medium.a9f3b2.woff2') format('woff2');
+  src: url('/fonts/Quicksand-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Quicksand";
-  src: url('../fonts/Quicksand-Bold.a9f3b2.woff2') format('woff2');
+  src: url('/fonts/Quicksand-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Radley";
-  src: url('../fonts/Radley-Regular.a9f3b2.woff2') format('woff2');
+  src: url('/fonts/Radley-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Radley";
-  src: url('../fonts/Radley-Italic.a9f3b2.woff2') format('woff2');
+  src: url('/fonts/Radley-Italic.woff2') format('woff2');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -73,13 +73,10 @@ html {
   padding: 0 20px;
   background-color: rgba(var(--text-primary), 0.8);
   backdrop-filter: blur(10px);
-  transition: transform 0.3s ease;
-  will-change: transform;
+  -webkit-backdrop-filter: blur(10px);
+  flex-wrap: wrap;
 }
 
-#navbar.hidden {
-  transform: translateY(-100%);
-}
 
 .logo, .logo a {
   height: 100%;
@@ -239,7 +236,8 @@ footer {
     width: 100%;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(var(--text-primary), 0.95);
+    background-color: rgba(var(--text-primary), 0.8);
+    backdrop-filter: blur(10px);
     overflow: hidden;
     max-height: 0;
     padding: 0;
