@@ -23,6 +23,6 @@
   "homepage": "https://sroyauthor.vercel.app",
   "devDependencies": {
     "esbuild": "^0.25.9",
-    "vite": "^7.1.2"
+    "vite": "^7.1.5"
   }
 }
