@@ -41,7 +41,7 @@ sroyauthor.vercel.app is a personal website designed to showcase my blogs, works
 | Component        | Technology / Tool              |
 |------------------|---------------------------------|
 | Markup & Styling | HTML, CSS                      |
-| Scripting        | JavaScript (if applicable)     |
+| Scripting        | JavaScript                     |
 | Bundler / Dev    | Vite                           |
 | Hosting / CDN    | Vercel                        |
 
