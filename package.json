@@ -1,7 +1,7 @@
 {
   "name": "sroyauthor.vercel.app",
-  "version": "1.0.0",
-  "description": "A cache-busted, production-ready site built with Vite and Vanilla JavaScript.",
+  "version": "1.1.0",
+  "description": "sroyauthor.vercel.app",
   "main": "vite.config.js",
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,8 @@
     "url": "https://github.com/Smarg1/sroyauthor.vercel.app.git"
   },
   "keywords": [
-    "smarg1"
+    "smarg1",
+    "sroyauthor.vercel.app"
   ],
   "author": "smarg1",
   "license": "MIT",
@@ -24,5 +25,9 @@
   "devDependencies": {
     "esbuild": "^0.25.9",
     "vite": "^7.1.2"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.5.0",
+    "firebase": "^12.2.1"
   }
 }

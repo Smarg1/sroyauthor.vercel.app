@@ -84,17 +84,17 @@
     <header class="fade-in">
         <h1>Where Fiction and the Soul of Nature Converge</h1>
         <p>Exploring the intricate bond between humanity and the earth’s secrets.</p>
-        <a href="/works.html"><button>Explore</button></a>
+        <a href="/blogs.html"><button>Read More</button></a>
     </header>
 
-    <main>
-      <section class="works" id="works">
+    <main> <!-- Add dynamic html for tile insertion - marquee/add nav bar slide in at start -->
+      <section class="works fade-in" id="works">
         <h2 class="heading">Works</h2>
-        <button class="scroll-btn left" aria-label="Scroll Left">
-          <img src="/images/icons/left.svg" alt="Left Scroll" fetchpriority="high"/>
-        </button>
-          <div class="works-wrapper">
-            <div class="work-item">
+        <div class="works-wrapper">
+          <button class="scroll-btn left" aria-label="Scroll Left">
+            <img src="/images/icons/left.svg" alt="Left Scroll" fetchpriority="high"/>
+          </button>
+            <div class="work-items">
               <div class="flip-container">
                 <div class="flipper">
                   <div class="front">
@@ -109,13 +109,13 @@
                 </div>
               </div>
             </div>
+            <button class="scroll-btn right" aria-label="Scroll Right">
+              <img src="/images/icons/right.svg" alt="Right Scroll" fetchpriority="high"/>
+            </button>
           </div>
-        <button class="scroll-btn right" aria-label="Scroll Right">
-          <img src="/images/icons/right.svg" alt="Right Scroll" fetchpriority="high"/>
-        </button>
       </div>
       </section>
-      <section>
+      <section class="fade-in">
         <h2 class="heading" id="about">About</h2>
         <div class="about-wrapper">
           <img

@@ -26,7 +26,7 @@ const appearObserver = new IntersectionObserver((entries, observer) => {
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.2, rootMargin: "0px 0px -50px 0px" });
+}, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
 
 // === Utility: Toggle Icon ===
 function toggleIcon() {
@@ -93,3 +93,8 @@ window.addEventListener("DOMContentLoaded", () => {
     setTimeout(initDeferred, 100);
   }
 });
+
+
+// Analytics - (pls fix, add inject() [method to button click and interaction])
+
+import { inject } from "@vercel/analytics"
