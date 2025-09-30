@@ -1,0 +1,119 @@
+/* == Dashboard == */
+.maindiv, .formdiv {
+  background-color: #da935a9a;
+  border-radius: 50px;
+  padding: 2%;
+  margin: 2%;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.greet, .text {
+  font-family: var(--font-quicksand), sans-serif;
+  text-align: center;
+}
+
+.greet {
+  margin-top: 2%;
+}
+
+.formdiv {
+  flex-direction: column;
+}
+.uploadForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  padding: 15px;
+  border-radius: 15px;
+  border: 2px solid #ffffff;
+  transition: border-color 0.3s ease, background-color 0.2s ease;
+}
+
+.uploadForm:hover {
+  border-color: #0070f3;
+  background-color: #000000;
+  color: white;
+}
+
+.uploadForm input[type="file"] {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ffffff;
+  transition: border-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+.uploadForm input[type="file"]:hover,
+.uploadForm input[type="file"]:focus {
+  border-color: #0070f3;
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.3);
+  outline: none;
+}
+
+.uploadStatus {
+  font-size: 0.95em;
+  background-color: #0070f3;
+  color: #000000;
+  border-radius: 50px;
+  font-weight: 500;
+  min-height: 1.2em;
+}
+
+.imagePreviewContainer {
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.imagePreview {
+  border-radius: 12px;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.imagePreview:hover {
+  transform: scale(1.05);
+}
+
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ffffff;
+  resize: vertical;
+  font-family: var(--font-quicksand), sans-serif;
+  font-size: 1em;
+  transition: border-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #0070f3;
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.3);
+}
+
+/* == Login == */
+.login {
+  margin: auto;
+  text-align: center;
+}
+
+.field {
+  font-size: larger;
+  margin: 10px;
+  font-style: bold;
+  font-family: var(--font-quicksand),sans-serif;
+}
+
+.error {
+  color: rgb(255, 121, 121);
+  font-family: var(--font-quicksand),sans-serif;
+  font-style: italic;
+}

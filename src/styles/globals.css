@@ -1,0 +1,71 @@
+/* === Root Variables === */
+:root {
+  --mocha-brown: 75, 54, 33;
+  --taupe-beige: 217, 196, 176;
+  --cream: 245, 240, 230;
+  --soft-copper: 184, 107, 75;
+  --text-primary: var(--mocha-brown);
+  --text-light: var(--cream);
+  --bg-primary: var(--taupe-beige);
+  --button-bg: var(--soft-copper);
+  --button-hover: var(--mocha-brown);
+  --button-text: var(--cream);
+}
+
+/* === Reset & Base === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100vh;
+  height: 100%;
+  background-color: rgba(var(--bg-primary));
+  color: rgba(var(--text-primary));
+  display: flex;
+  flex-direction: column;
+  touch-action: manipulation; 
+}
+
+main {
+  flex: 1;
+  font-family: var(--font-quicksand), sans-serif;
+  color: rgba(var(--text-primary));
+  background-color: rgba(var(--bg-primary));
+}
+
+section {
+  margin-top: 2%;
+}
+
+/* === Animation === */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Responsive === */
+@media (max-width: 800px) {
+  body {
+    text-align: center;
+  }
+}     

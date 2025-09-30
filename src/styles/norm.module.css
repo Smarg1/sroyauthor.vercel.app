@@ -1,0 +1,92 @@
+.container, .bcontainer {
+  max-width: 100%;
+  display: flex;
+  margin: 2%;
+  gap: 20px;
+  font-family: var(--font-quicksand), sans-serif;
+  justify-content: center;
+  flex: 1;
+}
+
+.container {
+  flex-direction: row;
+  flex-wrap: wrap;
+
+}
+
+.bcontainer {
+  flex-direction: column;
+}
+
+.heading {
+  margin-top: 15px;
+}
+
+.card {
+  color: rgb(var(--text-light));
+  background-color: rgba(var(--mocha-brown),0.8);
+  text-align: center;
+  width: 250px;
+  height: 100px;
+  border-radius: 50px;
+  padding: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.cardTitle {
+  margin: 0 0 10px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardDesc {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  line-clamp: 1;
+  text-overflow: ellipsis;
+  overflow:hidden;
+}
+
+.blogImages {
+  align-items: center;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.img {
+  max-width: 90%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 50px;
+}
+
+/* ======== Markdown ======= */
+.bhead {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  text-align: center;
+  font-size: 2.5rem;
+  text-wrap: balance;
+  max-width: 95%;
+}
+
+.bp {
+  margin: 10px;
+  height: 100%;
+  color: #381e00;
+  text-align: justify;
+}
