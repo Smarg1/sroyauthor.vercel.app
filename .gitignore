@@ -3,6 +3,7 @@ node_modules
 /build/
 .env
 .env.local
+dump.rdb
 .env.*.local
 __pycache__
 npm-debug.log*

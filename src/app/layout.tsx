@@ -3,7 +3,6 @@ import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import ClientWrapper from "@/hooks/ClientWrapper";
 import localFont from "next/font/local";
 import config from "@/config/app.config";
 
@@ -15,15 +14,15 @@ export const metadata = {
   generator: "Smarg1 (Firefly)",
   openGraph: {
     type: "website",
-    url: "https://sroyauthor.vercel.app/",
+    url: "https://sroyauthor.vercel.app",
     siteName: "sroyauthor",
     title: config.about.name,
     description: config.meta.desc,
     images: [
       {
         url: "https://sroyauthor.vercel.app/sp.png",
-        width: 1024,
-        height: 1024,
+        width: 1200,
+        height: 630,
         alt: config.meta.title,
       },
     ],
@@ -81,7 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <Navbar />
-        <ClientWrapper>{children}</ClientWrapper>
+        {children}
         <Footer />
         <SpeedInsights />
         <Analytics />

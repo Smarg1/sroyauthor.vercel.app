@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { slugify } from "@/hooks/slugify";
+import { slugify } from "@/utils/fetch";
 
 const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 
