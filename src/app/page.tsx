@@ -3,15 +3,12 @@ import styles from "@/styles/index.module.css";
 import Button from "@/components/Button/Button";
 import Heading from "@/components/Heading/Heading";
 import config from "@/config/app.config";
+import { bioG, pfpG } from "@/utils/fetch"
 
 export default async function HomePage() {
-  const bio = await fetch(`${process.env.BASE_URL}/api/bio`)
-    .then((res) => res.text())
-    .then((text) => text.replace(/^"|"$/g, ""));
+  const bio = await bioG()
 
-  const pfp = await fetch(`${process.env.BASE_URL}/api/pfp`)
-    .then((res) => res.text())
-    .then((text) => text.replace(/^"|"$/g, ""));
+  const pfp = await pfpG()
 
   return (
     <>
@@ -29,7 +26,7 @@ export default async function HomePage() {
           <Heading text="About" />
           <div className={styles.aboutWrapper}>
             <Image
-              src={pfp}
+              src={pfp ?? "/not-found.png"}
               alt="Author Picture"
               width={439}
               height={598}

@@ -5,6 +5,7 @@ import Heading from "@/components/Heading/Heading";
 import bstyle from "@/components/Button/Button.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 export default function AdminLoginPage() {
   const [user, setUser] = useState<string>("");
@@ -21,18 +22,24 @@ export default function AdminLoginPage() {
     }
 
     try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ username: user, password }),
-        credentials: "include",
+      const { data, error: loginError } = await supabase.auth.signInWithPassword({
+        email: user,
+        password,
       });
 
-      if (!res.ok) {
-        const data = await res.json();
-        setError(data.detail || "Login failed");
+      if (loginError || !data.session) {
+        setError(loginError?.message || "Login failed");
         return;
       }
+
+      await fetch("/api/set-cookies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token,
+        }),
+      });
 
       setError("");
       router.push("/admin/dashboard");
@@ -48,14 +55,14 @@ export default function AdminLoginPage() {
 
       <form onSubmit={handleLogin}>
         <div className={Styles.field}>
-          <label htmlFor="user">User: </label>
+          <label htmlFor="user">Email: </label>
           <input
             className="input"
-            type="text"
+            type="email"
             id="user"
             value={user}
             onChange={(e) => setUser(e.target.value)}
-            placeholder="Enter your username"
+            placeholder="Enter your email"
             required
           />
         </div>
