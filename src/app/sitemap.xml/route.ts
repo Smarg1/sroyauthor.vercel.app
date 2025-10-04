@@ -1,15 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { slugify } from "@/utils/fetch";
-import { createClient } from "@supabase/supabase-js";
-
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
-
-if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  throw new Error("Missing Supabase environment variables");
-}
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+import { Get, slugify } from "@/utils/fetch";
 
 type PostOrWork = {
   id: number;
@@ -20,44 +10,33 @@ type PostOrWork = {
   slug?: string;
 };
 
-async function Get<T>(table: string): Promise<T[]> {
-  const { data, error } = await supabase.from(table).select("*");
-  if (error) {
-    console.error(`Supabase error fetching from ${table}:`, error);
-    return [];
-  }
-  return (data as T[]) || [];
-}
-
 function calculatePriority(path: string) {
   const depth = path.split("/").filter(Boolean).length;
-  return Math.max(0.1, +(1 - depth * 0.1).toFixed(1));
+  const priority = 1 - depth * 0.1;
+  return priority < 0.1 ? 0.1 : +priority.toFixed(1);
 }
 
 export async function GET(req: NextRequest) {
   const protocol = req.headers.get("x-forwarded-proto") || "https";
-  const host = req.headers.get("host") || "localhost:3000";
-  const BASE_URL = `${protocol}://${host}`;
+  const host = req.headers.get("host");
+  const BASE_URL = host ? `${protocol}://${host}` : "http://localhost:3000";
 
-  const [posts, works] = await Promise.all([
-    Get<PostOrWork>("blogs"),
-    Get<PostOrWork>("works")
-  ]);
+  const posts: PostOrWork[] = (await Get<PostOrWork>("blogs")).map(post => ({
+    ...post,
+    slug: slugify(post.name),
+    updatedAt: post.updatedAt || new Date().toISOString(),
+  }));
 
-  const mapItems = (items: PostOrWork[], prefix: string) =>
-    items.map(item => ({
-      ...item,
-      slug: slugify(item.name),
-      updatedAt: item.updatedAt || new Date().toISOString(),
-      prefix
-    }));
-
-  const allPosts = mapItems(posts, "blogs");
-  const allWorks = mapItems(works, "works");
+  const works: PostOrWork[] = (await Get<PostOrWork>("works")).map(work => ({
+    ...work,
+    slug: slugify(work.name),
+    updatedAt: work.updatedAt || new Date().toISOString(),
+  }));
 
   const staticPages = ["", "about", "blogs", "works"];
 
-  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  sitemap += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
   staticPages.forEach(page => {
     const path = `/${page}`;
@@ -69,12 +48,20 @@ export async function GET(req: NextRequest) {
     </url>\n`;
   });
 
-  [...allPosts, ...allWorks].forEach(item => {
-    const path = `/${item.prefix}/${item.slug}`;
+  posts.forEach(post => {
     sitemap += `<url>
-      <loc>${BASE_URL}${path}</loc>
-      <priority>${calculatePriority(path)}</priority>
-      <lastmod>${new Date(item.updatedAt!).toISOString()}</lastmod>
+      <loc>${BASE_URL}/blogs/${post.slug}</loc>
+      <priority>${calculatePriority(`/blogs/${post.slug}`)}</priority>
+      <lastmod>${new Date(post.updatedAt!).toISOString()}</lastmod>
+      <changefreq>weekly</changefreq>
+    </url>\n`;
+  });
+
+  works.forEach(work => {
+    sitemap += `<url>
+      <loc>${BASE_URL}/works/${work.slug}</loc>
+      <priority>${calculatePriority(`/works/${work.slug}`)}</priority>
+      <lastmod>${new Date(work.updatedAt!).toISOString()}</lastmod>
       <changefreq>weekly</changefreq>
     </url>\n`;
   });
@@ -82,6 +69,6 @@ export async function GET(req: NextRequest) {
   sitemap += `</urlset>`;
 
   return new NextResponse(sitemap, {
-    headers: { "Content-Type": "application/xml" }
+    headers: { "Content-Type": "application/xml" },
   });
 }
