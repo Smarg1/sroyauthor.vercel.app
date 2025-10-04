@@ -1,10 +1,21 @@
+"use client"
+
 import Link from "next/link";
 import styles from "@/styles/norm.module.css";
 import Heading from "@/components/Heading/Heading";
 import { Get, slugify, Author } from "@/utils/fetch";
+import { useState, useEffect } from "react";
 
-export default async function worksPage() {
-  const works = await Get<Author>("works");
+export default function WorksPage() {
+  const [works, setWorks] = useState<Author[]>([]);
+
+  useEffect(() => {
+    const fetchWorks = async () => {
+      const data = await Get<Author>("works");
+      setWorks(data);
+    };
+    fetchWorks();
+  }, []);
 
   return (
     <>

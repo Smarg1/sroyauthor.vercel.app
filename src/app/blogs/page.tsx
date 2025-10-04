@@ -1,10 +1,21 @@
+"use client"
+
 import Link from "next/link";
 import styles from "@/styles/norm.module.css";
 import Heading from "@/components/Heading/Heading";
+import { useState, useEffect } from "react";
 import { Get, slugify, Author } from "@/utils/fetch";
 
-export default async function BlogsPage() {
-  const blogs = await Get<Author>("blogs");
+export default function BlogsPage() {
+  const [blogs, setBlogs] = useState<Author[]>([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const data = await Get<Author>("blogs");
+      setBlogs(data);
+    };
+    fetchBlogs();
+  }, []);
 
   return (
     <>
