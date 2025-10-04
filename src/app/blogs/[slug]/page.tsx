@@ -18,13 +18,11 @@ export default async function BlogPage({ params }: Props) {
     <div className={styles.bcontainer}>
       <h1 className={styles.bhead}>{blog.name}</h1>
       <p className={styles.bp}>{blog.description}</p>
-      <div className={styles.blogImages}>
-        {Array.isArray(blog.image) && blog.image.length > 0 ? (
-          blog.image.map((src, i) => (
-            <Image key={i} src={src} alt={`${blog.name}-${i}`} className={styles.img} fill={true} crossOrigin="anonymous"/>
-          ))
-        ) : (null)}
-      </div>
+      {Array.isArray(blog.image) && blog.image.length > 0 ? (
+        blog.image.map((src, i) => (
+          <Image key={i} src={src} alt={`${blog.name}-${i}`} className={styles.img} fill={true} crossOrigin="anonymous"/>
+        ))
+      ) : (null)}
     </div>
   );
 }
