@@ -1,5 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Get, slugify } from "@/utils/fetch";
+import { slugify } from "@/utils/fetch";
+import { createClient } from "@supabase/supabase-js";
+
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  throw new Error("Missing Supabase environment variables");
+}
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 type PostOrWork = {
   id: number;
@@ -10,40 +20,45 @@ type PostOrWork = {
   slug?: string;
 };
 
-// --- Calculate priority based on URL depth ---
+async function Get<T>(table: string): Promise<T[]> {
+  const { data, error } = await supabase.from(table).select("*");
+  if (error) {
+    console.error(`Supabase error fetching from ${table}:`, error);
+    return [];
+  }
+  return (data as T[]) || [];
+}
+
 function calculatePriority(path: string) {
   const depth = path.split("/").filter(Boolean).length;
-  const priority = 1 - depth * 0.1;
-  return priority < 0.1 ? 0.1 : +priority.toFixed(1);
+  return Math.max(0.1, +(1 - depth * 0.1).toFixed(1));
 }
 
 export async function GET(req: NextRequest) {
-  // --- Dynamically generate BASE_URL from request headers ---
   const protocol = req.headers.get("x-forwarded-proto") || "https";
-  const host = req.headers.get("host");
-  const BASE_URL = host ? `${protocol}://${host}` : "http://localhost:3000";
+  const host = req.headers.get("host") || "localhost:3000";
+  const BASE_URL = `${protocol}://${host}`;
 
-  // --- Fetch blogs and works from Supabase ---
-  const posts: PostOrWork[] = (await Get<PostOrWork>("blogs")).map(post => ({
-    ...post,
-    slug: slugify(post.name),
-    updatedAt: post.updatedAt || new Date().toISOString(),
-  }));
+  const [posts, works] = await Promise.all([
+    Get<PostOrWork>("blogs"),
+    Get<PostOrWork>("works")
+  ]);
 
-  const works: PostOrWork[] = (await Get<PostOrWork>("works")).map(work => ({
-    ...work,
-    slug: slugify(work.name),
-    updatedAt: work.updatedAt || new Date().toISOString(),
-  }));
+  const mapItems = (items: PostOrWork[], prefix: string) =>
+    items.map(item => ({
+      ...item,
+      slug: slugify(item.name),
+      updatedAt: item.updatedAt || new Date().toISOString(),
+      prefix
+    }));
 
-  // --- Static pages ---
+  const allPosts = mapItems(posts, "blogs");
+  const allWorks = mapItems(works, "works");
+
   const staticPages = ["", "about", "blogs", "works"];
 
-  // --- Build XML sitemap ---
-  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  sitemap += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
-  // Static pages
   staticPages.forEach(page => {
     const path = `/${page}`;
     sitemap += `<url>
@@ -54,22 +69,12 @@ export async function GET(req: NextRequest) {
     </url>\n`;
   });
 
-  // Blog posts
-  posts.forEach(post => {
+  [...allPosts, ...allWorks].forEach(item => {
+    const path = `/${item.prefix}/${item.slug}`;
     sitemap += `<url>
-      <loc>${BASE_URL}/blogs/${post.slug}</loc>
-      <priority>${calculatePriority(`/blogs/${post.slug}`)}</priority>
-      <lastmod>${new Date(post.updatedAt!).toISOString()}</lastmod>
-      <changefreq>weekly</changefreq>
-    </url>\n`;
-  });
-
-  // Works
-  works.forEach(work => {
-    sitemap += `<url>
-      <loc>${BASE_URL}/works/${work.slug}</loc>
-      <priority>${calculatePriority(`/works/${work.slug}`)}</priority>
-      <lastmod>${new Date(work.updatedAt!).toISOString()}</lastmod>
+      <loc>${BASE_URL}${path}</loc>
+      <priority>${calculatePriority(path)}</priority>
+      <lastmod>${new Date(item.updatedAt!).toISOString()}</lastmod>
       <changefreq>weekly</changefreq>
     </url>\n`;
   });
@@ -77,6 +82,6 @@ export async function GET(req: NextRequest) {
   sitemap += `</urlset>`;
 
   return new NextResponse(sitemap, {
-    headers: { "Content-Type": "application/xml" },
+    headers: { "Content-Type": "application/xml" }
   });
 }
