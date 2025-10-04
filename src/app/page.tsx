@@ -1,14 +1,26 @@
+"use client"
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "@/styles/index.module.css";
 import Button from "@/components/Button/Button";
 import Heading from "@/components/Heading/Heading";
 import config from "@/config/app.config";
-import { bioG, pfpG } from "@/utils/fetch"
+import { bioG, pfpG } from "@/utils/fetch";
 
-export default async function HomePage() {
-  const bio = await bioG()
+export default function HomePage() {
+  const [bio, setBio] = useState<string|null>("");
+  const [pfp, setPfp] = useState<string|null>("");
 
-  const pfp = await pfpG()
+  useEffect(() => {
+    async function fetchData() {
+      const bioData = await bioG();
+      const pfpData = await pfpG();
+      setBio(bioData);
+      setPfp(pfpData);
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -26,7 +38,7 @@ export default async function HomePage() {
           <Heading text="About" />
           <div className={styles.aboutWrapper}>
             <Image
-              src={pfp ?? "/not-found.png"}
+              src={pfp || "/not-found.png"}
               alt="Author Picture"
               width={439}
               height={598}

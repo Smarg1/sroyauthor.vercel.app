@@ -22,32 +22,26 @@ export default function AdminDashboard() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const router = useRouter();
 
-  // Profile Pic
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
   const [status, setStatus] = useState("");
   const [uploading, setUploading] = useState(false);
   const [dotCount, setDotCount] = useState(0);
 
-  // Bio
   const [bioText, setBioText] = useState("");
   const [bioStatus, setBioStatus] = useState("");
 
-  // Work
   const [workTitle, setWorkTitle] = useState("");
   const [workDesc, setWorkDesc] = useState("");
   const [workFile, setWorkFile] = useState<File | null>(null);
   const [workStatus, setWorkStatus] = useState("");
 
-  // Blog
   const [blogTitle, setBlogTitle] = useState("");
   const [blogDesc, setBlogDesc] = useState("");
   const [blogFiles, setBlogFiles] = useState<File[]>([]);
   const [blogStatus, setBlogStatus] = useState("");
 
-  // -------------------------------
   // Verify user
-  // -------------------------------
   useEffect(() => {
     const verifyUser = async () => {
       const { data, error } = await supabase.auth.getUser();
@@ -61,18 +55,13 @@ export default function AdminDashboard() {
     verifyUser();
   }, [router]);
 
-  // -------------------------------
-  // Upload animation dots
-  // -------------------------------
+  // Upload dots animation
   useEffect(() => {
     if (!uploading) return;
     const interval = setInterval(() => setDotCount((prev) => (prev + 1) % 4), 500);
     return () => clearInterval(interval);
   }, [uploading]);
 
-  // -------------------------------
-  // File change
-  // -------------------------------
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0] || null;
     if (preview) URL.revokeObjectURL(preview);
@@ -80,105 +69,148 @@ export default function AdminDashboard() {
     setPreview(selected ? URL.createObjectURL(selected) : "");
   };
 
-  // -------------------------------
-  // Helper: Upload FormData to API
-  // -------------------------------
-  const uploadToApi = async (endpoint: string, formData: FormData) => {
+  // ----------------- Core Upload Functions -----------------
+
+  const uploadProfilePic = async () => {
+    if (!file) return setStatus("Please select a file first");
     setUploading(true);
+    setStatus("Uploading...");
     try {
-      const res = await fetch(endpoint, { method: "POST", body: formData, credentials: "include" });
-      const data = await res.json();
-      return { ok: res.ok, data };
-    } catch (err) {
+      const user = await supabase.auth.getUser();
+      if (!user.data.user) throw new Error("Unauthorized");
+
+      const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2)}-${file.name}`;
+      const arrayBuffer = await file.arrayBuffer();
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("img-blob")
+        .upload(uniqueFileName, Buffer.from(arrayBuffer), { contentType: file.type });
+
+      if (uploadError || !uploadData) throw uploadError || new Error("Upload failed");
+
+      const { data: publicData } = supabase.storage.from("img-blob").getPublicUrl(uploadData.path);
+      if (!publicData?.publicUrl) throw new Error("Failed to get public URL");
+
+      await supabase.from("author").update({ pfp: publicData.publicUrl }).eq("id", 1);
+
+      setStatus("Upload successful");
+      setFile(null);
+      setPreview("");
+    } catch (err: unknown) {
+      let message = "Failed to upload profile picture";
+      if (err instanceof Error) message = err.message;
       console.error(err);
-      return { ok: false, data: { error: "Something went wrong" } };
+      setStatus(message);
     } finally {
       setUploading(false);
     }
   };
 
-  // -------------------------------
-  // Handlers
-  // -------------------------------
-  const handleImageSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!file) return setStatus("Please select a file first");
+  const uploadBio = async () => {
+    const cleanBio = bioText.trim();
+    if (!cleanBio) return setBioStatus("Please enter some text.");
+    setUploading(true);
+    setBioStatus("Uploading...");
+    try {
+      const user = await supabase.auth.getUser();
+      if (!user.data.user) throw new Error("Unauthorized");
 
-    const formData = new FormData();
-    formData.append("file", file);
-
-    setStatus("Uploading...");
-    const { ok, data } = await uploadToApi("/api/pfp-u", formData);
-    setStatus(ok ? "Upload successful" : `Upload failed: ${data.error || "Unknown error"}`);
-    if (ok) {
-      setFile(null);
-      setPreview("");
+      await supabase.from("author").update({ description: cleanBio }).eq("id", 1);
+      setBioStatus("Bio uploaded successfully");
+      setBioText("");
+    } catch (err: unknown) {
+      let message = "Failed to upload bio";
+      if (err instanceof Error) message = err.message;
+      console.error(err);
+      setBioStatus(message);
+    } finally {
+      setUploading(false);
     }
   };
 
-  const handleBioSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const cleanBio = bioText.trim();
-    if (!cleanBio) return setBioStatus("Please enter some text.");
-
-    const formData = new FormData();
-    formData.append("description", cleanBio);
-
-    setBioStatus("Uploading...");
-    const { ok, data } = await uploadToApi("/api/bio-u", formData);
-    setBioStatus(ok ? "Bio uploaded successfully" : `Upload failed: ${data.error || "Unknown error"}`);
-    if (ok) setBioText("");
-  };
-
-  const handleWorkSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const uploadWork = async () => {
     const title = workTitle.trim();
     const desc = workDesc.trim();
     if (!title || !desc || !workFile) return setWorkStatus("Please fill all fields and select an image.");
-
-    const formData = new FormData();
-    formData.append("name", title);
-    formData.append("desc", desc);
-    formData.append("file", workFile);
-
+    setUploading(true);
     setWorkStatus("Uploading...");
-    const { ok, data } = await uploadToApi("/api/work-u", formData);
-    setWorkStatus(ok ? "Work uploaded successfully" : `Upload failed: ${data.error || "Unknown error"}`);
-    if (ok) {
+    try {
+      const user = await supabase.auth.getUser();
+      if (!user.data.user) throw new Error("Unauthorized");
+
+      const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2)}-${workFile.name}`;
+      const arrayBuffer = await workFile.arrayBuffer();
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("img-blob")
+        .upload(uniqueFileName, Buffer.from(arrayBuffer), { contentType: workFile.type });
+
+      if (uploadError || !uploadData) throw uploadError || new Error("Upload failed");
+
+      const { data: publicData } = supabase.storage.from("img-blob").getPublicUrl(uploadData.path);
+      if (!publicData?.publicUrl) throw new Error("Failed to get public URL");
+
+      await supabase.from("works").insert({ name: title, description: desc, image: publicData.publicUrl });
+
+      setWorkStatus("Work uploaded successfully");
       setWorkTitle("");
       setWorkDesc("");
       setWorkFile(null);
+    } catch (err: unknown) {
+      let message = "Failed to upload work";
+      if (err instanceof Error) message = err.message;
+      console.error(err);
+      setWorkStatus(message);
+    } finally {
+      setUploading(false);
     }
   };
 
-  const handleBlogSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const uploadBlog = async () => {
     const title = blogTitle.trim();
     const desc = blogDesc.trim();
     if (!title || !desc) return setBlogStatus("Please fill all fields.");
-
-    const formData = new FormData();
-    formData.append("name", title);
-    formData.append("desc", desc);
-    blogFiles.forEach((f) => formData.append("files[]", f));
-
+    setUploading(true);
     setBlogStatus("Uploading...");
-    const { ok, data } = await uploadToApi("/api/blog-u", formData);
-    setBlogStatus(ok ? "Blog uploaded successfully" : `Upload failed: ${data.error || "Unknown error"}`);
-    if (ok) {
+    try {
+      const user = await supabase.auth.getUser();
+      if (!user.data.user) throw new Error("Unauthorized");
+
+      const uploadedUrls: string[] = [];
+      for (const file of blogFiles) {
+        const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2)}-${file.name}`;
+        const arrayBuffer = await file.arrayBuffer();
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("img-blob")
+          .upload(uniqueFileName, Buffer.from(arrayBuffer), { contentType: file.type });
+        if (uploadError || !uploadData) throw uploadError || new Error("Upload failed");
+
+        const { data: publicData } = supabase.storage.from("img-blob").getPublicUrl(uploadData.path);
+        if (!publicData?.publicUrl) continue;
+
+        uploadedUrls.push(publicData.publicUrl);
+      }
+
+      await supabase.from("blogs").insert({ name: title, description: desc, image: uploadedUrls });
+      setBlogStatus("Blog uploaded successfully");
       setBlogTitle("");
       setBlogDesc("");
       setBlogFiles([]);
+    } catch (err: unknown) {
+      let message = "Failed to upload blog";
+      if (err instanceof Error) message = err.message;
+      console.error(err);
+      setBlogStatus(message);
+    } finally {
+      setUploading(false);
     }
   };
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/logout", { method: "POST", credentials: "include" });
       await supabase.auth.signOut();
       router.push("/admin");
-    } catch {
-      console.error("Logout failed");
+    } catch (err: unknown) {
+      if (err instanceof Error) console.error("Logout failed:", err.message);
+      else console.error("Logout failed:", err);
     }
   };
 
@@ -197,7 +229,7 @@ export default function AdminDashboard() {
       {/* Profile Pic */}
       <div className={Styles.formdiv}>
         <h2 className={Styles.text}>Upload Bio Pic:</h2>
-        <form className={Styles.uploadForm} onSubmit={handleImageSubmit}>
+        <form className={Styles.uploadForm} onSubmit={(e) => { e.preventDefault(); uploadProfilePic(); }}>
           <input type="file" accept="image/*" onChange={handleFileChange} required />
           <button type="submit">Upload</button>
           {status && <p className={Styles.uploadStatus}>{status}{uploading && ".".repeat(dotCount)}</p>}
@@ -208,7 +240,7 @@ export default function AdminDashboard() {
       {/* Bio */}
       <div className={Styles.formdiv}>
         <h2 className={Styles.text}>Upload Bio:</h2>
-        <form className={Styles.uploadForm} onSubmit={handleBioSubmit}>
+        <form className={Styles.uploadForm} onSubmit={(e) => { e.preventDefault(); uploadBio(); }}>
           <textarea value={bioText} onChange={(e) => setBioText(e.target.value)} rows={6} className={Styles.textarea} placeholder="Enter bio..." required />
           <button type="submit">Upload</button>
           {bioStatus && <p className={Styles.uploadStatus}>{bioStatus}</p>}
@@ -218,7 +250,7 @@ export default function AdminDashboard() {
       {/* Work */}
       <div className={Styles.formdiv}>
         <h2 className={Styles.text}>Upload Work:</h2>
-        <form className={Styles.uploadForm} onSubmit={handleWorkSubmit}>
+        <form className={Styles.uploadForm} onSubmit={(e) => { e.preventDefault(); uploadWork(); }}>
           <input value={workTitle} onChange={(e) => setWorkTitle(e.target.value)} placeholder="Work title" required />
           <textarea value={workDesc} onChange={(e) => setWorkDesc(e.target.value)} rows={4} className={Styles.textarea} placeholder="Work description" required />
           <input type="file" accept="image/*" onChange={(e) => setWorkFile(e.target.files?.[0] || null)} required />
@@ -230,7 +262,7 @@ export default function AdminDashboard() {
       {/* Blog */}
       <div className={Styles.formdiv}>
         <h2 className={Styles.text}>Upload Blog:</h2>
-        <form className={Styles.uploadForm} onSubmit={handleBlogSubmit}>
+        <form className={Styles.uploadForm} onSubmit={(e) => { e.preventDefault(); uploadBlog(); }}>
           <input value={blogTitle} onChange={(e) => setBlogTitle(e.target.value)} placeholder="Blog title" required />
           <textarea value={blogDesc} onChange={(e) => setBlogDesc(e.target.value)} rows={4} className={Styles.textarea} placeholder="Blog description" required />
           <input type="file" accept="image/*" multiple onChange={(e) => setBlogFiles(Array.from(e.target.files || []))} />
