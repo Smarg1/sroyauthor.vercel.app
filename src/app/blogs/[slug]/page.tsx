@@ -20,7 +20,7 @@ export default async function BlogPage({ params }: Props) {
       <p className={styles.bp}>{blog.description}</p>
       {Array.isArray(blog.image) && blog.image.length > 0 ? (
         blog.image.map((src, i) => (
-          <Image key={i} src={src} alt={`${blog.name}-${i}`} className={styles.img} fill={true} crossOrigin="anonymous"/>
+          <Image key={i} src={src} alt={`${blog.name}-${i}`} className={styles.img} crossOrigin="anonymous"/>
         ))
       ) : (null)}
     </div>

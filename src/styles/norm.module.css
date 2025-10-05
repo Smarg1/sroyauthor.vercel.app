@@ -75,6 +75,7 @@
 .bhead {
   word-break: break-word;
   overflow-wrap: anywhere;
+  width: 50%;
   text-align: center;
   font-size: 2.5rem;
   text-wrap: balance;
@@ -83,8 +84,8 @@
 
 .bp {
   margin: 10px;
-  width: 80%;
-  height: 100%;
+  font-size: larger;
+  width: 50%;
   color: #381e00;
   text-align: justify;
 }
