@@ -20,7 +20,7 @@ export default async function workPage({ params }: Props) {
       <p className={styles.bp}>{work.description}</p>
       {Array.isArray(work.image) && work.image.length > 0 ? (
         work.image.map((src, i) => (
-          <Image key={i} src={src} alt={`${work.name}-${i}`} className={styles.img} crossOrigin="anonymous"/>
+          <Image key={i} src={src} alt={`${work.name}-${i}`} className={styles.img} width={400} height={600} crossOrigin="anonymous"/>
         ))
       ) : (null)}
     </div>
