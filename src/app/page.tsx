@@ -5,7 +5,6 @@ import Image from "next/image";
 import styles from "@/styles/index.module.css";
 import Button from "@/components/Button/Button";
 import Heading from "@/components/Heading/Heading";
-import config from "@/config/app.config";
 import { bioG, pfpG } from "@/utils/fetch";
 
 export default function HomePage() {
@@ -25,11 +24,11 @@ export default function HomePage() {
   return (
     <>
       <header className={styles.headerWrapper}>
-        <h1>{config.header.title}</h1>
-        <p>{config.header.subtitle}</p>
+        <h1>Where Fiction and the Soul of Nature Converge</h1>
+        <p>Exploring the intricate bond between humanity and the earth’s secrets.</p>
         <Button
-          label={config.header.btntext}
-          href={config.header.btnlink}
+          label="Read More"
+          href="/blogs"
           internal={true}
         />
       </header>

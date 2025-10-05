@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Navbar.module.css";
-import config from "@/config/app.config";
 
 const navItems = [
   { href: "/#about", label: "About" },
@@ -29,7 +28,7 @@ export default function Navbar() {
       <div className={styles.logo}>
         <Link href="/" aria-label="Home" title="Home">
           <Image
-            src={config.meta.logo}
+            src="/images/icons/logo.svg"
             alt="sroy logo"
             width={150}
             height={80}

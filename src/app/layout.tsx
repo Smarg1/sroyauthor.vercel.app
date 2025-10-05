@@ -4,33 +4,32 @@ import Footer from "@/components/Footer/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import localFont from "next/font/local";
-import config from "@/config/app.config";
 
 export const metadata = {
-  title: config.meta.title,
-  description: config.meta.desc,
-  authors: [{ name: config.about.name }],
+  title: "Sangita Roy | Author",
+  description: "Discover the enchanting world of Sangita Roy, a nature-fiction author blending nature and imagination through fiction.",
+  authors: [{ name: "Sangita Roy" }],
   robots: "index, follow",
   generator: "Smarg1 (Firefly)",
   openGraph: {
     type: "website",
     url: "https://sroyauthor.vercel.app",
     siteName: "sroyauthor",
-    title: config.about.name,
-    description: config.meta.desc,
+    title: "Sangita Roy",
+    description: "Discover the enchanting world of Sangita Roy, a nature-fiction author blending nature and imagination through fiction.",
     images: [
       {
         url: "https://sroyauthor.vercel.app/sp.png",
         width: 1200,
         height: 630,
-        alt: config.meta.title,
+        alt: "Sangita Roy | Author",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: config.meta.title,
-    description: config.meta.desc,
+    title: "Sangita Roy | Author",
+    description: "Discover the enchanting world of Sangita Roy, a nature-fiction author blending nature and imagination through fiction.",
     images: ["https://sroyauthor.vercel.app/sp.png"],
   },
   manifest: "/images/favicon/manifest.json",
