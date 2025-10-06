@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import Link from "next/link";
-import styles from "@/styles/norm.module.css";
-import Heading from "@/components/Heading/Heading";
-import { Get, slugify, Author } from "@/utils/fetch";
 import { useState, useEffect } from "react";
+import Heading from "@/components/Heading/Heading";
+import Card from "@/components/Card/Card";
+import { Get, slugify, value } from "@/utils/fetch";
+import styles from "@/styles/norm.module.css";
 
 export default function WorksPage() {
-  const [works, setWorks] = useState<Author[]>([]);
+  const [works, setWorks] = useState<value[]>([]);
 
   useEffect(() => {
     const fetchWorks = async () => {
-      const data = await Get<Author>("works");
+      const data = await Get<value>("works");
       setWorks(data);
     };
     fetchWorks();
@@ -29,17 +29,18 @@ export default function WorksPage() {
         ) : (
           works.map(work => {
             const slug = slugify(work.name);
+            const imageSrc = Array.isArray(work.image)
+              ? work.image[0] ?? "/not-found.png"
+              : work.image ?? "/not-found.png";
             return (
-              <Link
+              <Card
                 key={work.id}
                 href={`/works/${slug}`}
-                style={{ textDecoration: "none" }}
-              >
-                <div className={styles.card}>
-                  <h2 className={styles.cardTitle}>{work.name}</h2>
-                  <p className={styles.cardDesc}>{work.description}</p>
-                </div>
-              </Link>
+                imageSrc={imageSrc}
+                imageAlt={work.name}
+                title={work.name}
+                description={work.description}
+              />
             );
           })
         )}

@@ -1,10 +1,10 @@
 import { supabase } from "@/lib/supabase";
 
-type value = {
+export type value = {
   id: number;
   name: string;
   description: string;
-  image?: string[] | string;
+  image?: string[];
   [key: string]: unknown;
 };
 
@@ -15,10 +15,12 @@ export type Author = {
   pfp: string | null
 }
 
+
 export function slugify(name: string) {
   return name
     .toLowerCase()
     .trim()
+    .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
@@ -32,16 +34,26 @@ export async function getSlug(slug: string, table: string): Promise<value | null
       return null;
     }
 
-    const slugItems: value[] = data;
+    const slugItems: value[] = data.map(item => {
+      let images: string[] = [];
 
-    slugItems.forEach(item => {
-      if (typeof item.image === "string") {
-        try {
-          item.image = JSON.parse(item.image);
-        } catch {
-          item.image = [];
+      if (item.image) {
+        if (typeof item.image === "string") {
+          try {
+            const parsed = JSON.parse(item.image);
+            images = Array.isArray(parsed) ? parsed : [String(parsed)];
+          } catch {
+            images = [item.image];
+          }
+        } else if (Array.isArray(item.image)) {
+          images = item.image;
         }
       }
+
+      return {
+        ...item,
+        image: images,
+      };
     });
 
     return slugItems.find(item => slugify(item.name) === slug) || null;

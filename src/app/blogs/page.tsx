@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import Link from "next/link";
+import { useState, useEffect } from "react";
 import styles from "@/styles/norm.module.css";
 import Heading from "@/components/Heading/Heading";
-import { useState, useEffect } from "react";
-import { Get, slugify, Author } from "@/utils/fetch";
+import Card from "@/components/Card/Card";
+import { Get, slugify, value } from "@/utils/fetch";
 
 export default function BlogsPage() {
-  const [blogs, setBlogs] = useState<Author[]>([]);
+  const [blogs, setBlogs] = useState<value[]>([]);
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const data = await Get<Author>("blogs");
+      const data = await Get<value>("blogs");
       setBlogs(data);
     };
     fetchBlogs();
@@ -29,17 +29,16 @@ export default function BlogsPage() {
         ) : (
           blogs.map(blog => {
             const slug = slugify(blog.name);
+
             return (
-              <Link
+              <Card
                 key={blog.id}
                 href={`/blogs/${slug}`}
-                style={{ textDecoration: "none" }}
-              >
-                <div className={styles.card}>
-                  <h2 className={styles.cardTitle}>{blog.name}</h2>
-                  <p className={styles.cardDesc}>{blog.description}</p>
-                </div>
-              </Link>
+                imageSrc={Array.isArray(blog.image) ? blog.image[0] ?? "/not-found.png" : blog.image ?? "/not-found.png"}
+                imageAlt={blog.name}
+                title={blog.name}
+                description={blog.description}
+              />
             );
           })
         )}
