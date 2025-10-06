@@ -113,7 +113,7 @@
 }
 
 .error {
-  color: rgb(255, 121, 121);
+  color: rgb(255, 0, 0);
   font-family: var(--font-quicksand),sans-serif;
   font-style: italic;
 }

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import localFont from "next/font/local";
+import PageTransition from "@/hooks/PageTransition";
 
 export const metadata = {
   title: "Sangita Roy | Author",
@@ -32,7 +33,7 @@ export const metadata = {
     description: "Discover the enchanting world of Sangita Roy, a nature-fiction author blending nature and imagination through fiction.",
     images: ["https://sroyauthor.vercel.app/sp.png"],
   },
-  manifest: "/images/favicon/manifest.json",
+  manifest: "/manifest.json",
   icons: {
     icon: [
       { url: "/images/favicon/favicon-96x96.png", sizes: "96x96", type: "image/png" },
@@ -79,7 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <Navbar />
-        {children}
+        <PageTransition>{children}</PageTransition>
         <Footer />
         <SpeedInsights />
         <Analytics />
