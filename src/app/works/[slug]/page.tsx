@@ -4,7 +4,7 @@ import Image from "next/image";
 import { getSlug, value } from "@/utils/fetch";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export default async function WorkPage({ params }: Props) {
