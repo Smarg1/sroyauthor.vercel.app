@@ -1,0 +1,22 @@
+/* === Buttons === */
+.button {
+  align-items: center;
+  text-decoration: none;
+  font-family: var(--font-quicksand), sans-serif;
+  font-weight: 500;
+  font-size: 1.2em;
+  background-color: rgba(var(--button-bg));
+  color: rgba(var(--button-text));
+  padding: 10px 20px;
+  margin: 0;
+  text-align: center;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+  background-color: rgba(var(--button-hover));
+  color: rgba(var(--text-light));
+}

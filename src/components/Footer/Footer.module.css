@@ -1,0 +1,24 @@
+/* === Footer === */
+.footer {
+  font-family: var(--font-radley), serif;
+  font-style: italic;
+  font-size: 0.9em;
+  color: rgba(var(--text-light), 1);
+  background: rgba(var(--mocha-brown), 0.8);
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 30px;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.social-icons :global(img) {
+  filter: invert(1);
+  width: 18px;
+  height: 18px;
+}

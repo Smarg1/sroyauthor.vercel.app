@@ -1,0 +1,8 @@
+User-agent: *
+
+Disallow: /private/
+Disallow: /api/
+Disallow: /admin/
+Allow: /
+
+Sitemap: https://sroyauthor.vercel.app/sitemap.xml
