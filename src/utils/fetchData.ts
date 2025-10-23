@@ -52,7 +52,7 @@ async function getTableData<T extends object>(
   const { data, error } = await supabase.from(table).select(columns);
 
   if (error || !data) {
-    console.error(`[fetchData] Supabase error fetching ${table}:`, error);
+    console.error("[fetchData] Supabase error fetching %s:", table, error);
     return [];
   }
 
