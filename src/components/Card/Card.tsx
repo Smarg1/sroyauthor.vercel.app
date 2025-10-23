@@ -1,8 +1,6 @@
-"use client";
-
-import Link from "next/link";
 import Image from "next/image";
 import styles from "./Card.module.css";
+import Link from "next/link";
 
 type CardProps = {
   href: string;
@@ -12,7 +10,7 @@ type CardProps = {
   description: string;
 };
 
-export default function Card({ href, imageSrc, imageAlt, title, description }: CardProps) {
+export default async function Card({ href, imageSrc, imageAlt, title, description }: CardProps) {
   return (
     <Link href={href} className={styles.card}>
       <Image

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./Navbar.module.css";
 
 const navItems = [
@@ -15,51 +15,70 @@ const navItems = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu = () => setMenuOpen(prev => !prev);
+  const toggleMenu = useCallback(() => {
+    setMenuOpen((prev) => !prev);
+  }, []);
 
   useEffect(() => {
-    const handleScroll = () => menuOpen && setMenuOpen(false);
+    const handleScroll = () => setMenuOpen(false);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    document.body.style.overflow = menuOpen ? "hidden" : "auto";
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.body.style.overflow = "auto";
+    };
   }, [menuOpen]);
+
+  const handleOverlayClick = () => setMenuOpen(false);
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logo}>
-        <Link href="/" aria-label="Home" title="Home">
+      <div className={`${styles.logo} ${styles.logoAnimated}`}>
+        <Link href="/" aria-label="Home">
           <Image
             src="/images/icons/logo.svg"
-            alt="sroy logo"
+            alt="logo"
             width={150}
             height={80}
             priority
           />
         </Link>
       </div>
-
       <button
         aria-label="Toggle Menu"
-        title="Toggle Menu"
+        aria-expanded={menuOpen}
+        aria-controls="nav-menu"
         className={`${styles.menuToggle} ${menuOpen ? styles.open : ""}`}
         onClick={toggleMenu}
       >
         <Image
           src={menuOpen ? "/images/icons/close.svg" : "/images/icons/bars.svg"}
-          alt="Toggle Menu"
+          alt="Menu toggle"
           width={24}
           height={24}
         />
       </button>
-
-      <div className={`${styles.menuItems} ${menuOpen ? styles.active : ""}`}>
-        {navItems.map(item => (
-          <div key={item.label} className={styles.navItem}>
-            <Link href={item.href} as={item.href} onClick={() => menuOpen && setMenuOpen(false)}>
-              {item.label}
+      <div
+        id="nav-menu"
+        className={`${styles.menuItems} ${menuOpen ? styles.active : ""}`}
+      >
+        {navItems.map(({ href, label }) => (
+          <div key={label} className={styles.navItem}>
+            <Link
+              href={href}
+              onClick={() => setMenuOpen(false)}
+            >
+              {label}
             </Link>
           </div>
         ))}
       </div>
+      <div
+        className={`${styles.overlay} ${menuOpen ? styles.show : ""}`}
+        onClick={handleOverlayClick}
+        aria-hidden="true"
+      />
     </nav>
   );
 }

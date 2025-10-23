@@ -1,12 +1,11 @@
+"use client";
+
 import React from "react";
-import Link from "next/link";
 import styles from "./Button.module.css";
+import Link from "next/link";
 
 interface ButtonProps {
-  label?: string;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  href?: string;
-  internal?: boolean;
+  label?: string;  onClick?: () => void;  href?: string;
   ariaLabel?: string;
 }
 
@@ -14,28 +13,18 @@ const Button: React.FC<ButtonProps> = ({
   label = "Button",
   onClick,
   href,
-  internal = false,
   ariaLabel,
 }) => {
-  if (href && internal) {
-    return (
-      <Link href={href} className={styles.button} aria-label={ariaLabel || label}>
-        {label}
-      </Link>
-    );
-  }
-
   if (href) {
     return (
-      <a
+      <Link
         href={href}
-        target="_blank"
-        rel="noopener noreferrer"
         className={styles.button}
         aria-label={ariaLabel || label}
+        prefetch
       >
         {label}
-      </a>
+      </Link>
     );
   }
 

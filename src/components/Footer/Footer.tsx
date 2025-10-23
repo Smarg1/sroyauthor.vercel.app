@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "./Footer.module.css";
 
 
-export default function Footer() {
+export default async function Footer() {
   const socialLinks = [
     {
       href: "https://www.instagram.com/sroyauthor/",
@@ -49,7 +49,7 @@ export default function Footer() {
   
   return (
     <footer className={styles.footer} id="contact">
-      <p>© 2025 Sangita Roy. All rights reserved.</p>
+      <p>&copy; 2025 Sangita Roy. All rights reserved.</p>
 
       <div className={styles["social-icons"]}>
         {socialLinks.map(({ href, label, title, src, external }) => (

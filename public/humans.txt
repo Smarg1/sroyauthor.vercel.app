@@ -1,15 +1,12 @@
 User-agent: *
 
-/* TEAM */
 Author: Sangita Roy
 Design and Development: smarg1
 Website: https://sroyauthor.vercel.app
 
-/* THANKS */
 Special thanks to the following resources:
 - Fonts from Google Fonts and Self Hosted
 - Icons from Font Awesome and self Hosted
 - Hosting by Vercel
 
-/* SITE */
 Last update: 28 September 2025

@@ -1,0 +1,4 @@
+Contact: https://github.com/Smarg1/sroyauthor.vercel.app/security/advisories
+Preferred-Languages: en
+Canonical: https://sroyauthor.vercel.app/.well-known/security.txt
+Policy: https://github.com/Smarg1/sroyauthor.vercel.app/security/policy

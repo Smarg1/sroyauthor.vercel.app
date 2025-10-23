@@ -1,8 +1,7 @@
-import { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+const nextConfig = {
   reactStrictMode: true,
   output: "standalone",
+  devIndicators: false,
 
   images: {
     remotePatterns: [
@@ -24,19 +23,19 @@ const nextConfig: NextConfig = {
           { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
           {
             key: "Content-Security-Policy",
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
-              "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' blob: data: https:",
-              "font-src 'self'",
-              "connect-src 'self' https://*.supabase.co https://va.vercel-scripts.com",
-              "object-src 'none'",
-              "base-uri 'self'",
-              "form-action 'self'",
-              "frame-ancestors 'none'",
-              "upgrade-insecure-requests"
-            ].join("; ")
+            value:[
+                  "default-src 'self'",
+                  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
+                  "style-src 'self' 'unsafe-inline'",
+                  "img-src 'self' blob: data: https://ironhvybzbahndudasce.supabase.co",
+                  "font-src 'self'",
+                  "connect-src 'self' https://va.vercel-scripts.com",
+                  "object-src 'none'",
+                  "base-uri 'self'",
+                  "form-action 'self'",
+                  "frame-ancestors 'none'",
+                  "upgrade-insecure-requests",
+                ].join("; "),
           },
         ],
       },

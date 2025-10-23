@@ -4,39 +4,59 @@ import Footer from "@/components/Footer/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import localFont from "next/font/local";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import PageTransition from "@/hooks/PageTransition";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Sangita Roy | Author",
-  description: "Discover the enchanting world of Sangita Roy, a nature-fiction author blending nature and imagination through fiction.",
-  authors: [{ name: "Sangita Roy" }],
+  description:
+    "Discover the enchanting world of Sangita Roy, a nature-fiction author blending nature and imagination through fiction.",
+  authors: [{ name: "Sangita Roy", url: "https://github.com/smarg1" }],
   robots: "index, follow",
-  generator: "Smarg1 (Firefly)",
+  generator: "Smarg1 (Firefly), Next.js",
   openGraph: {
     type: "website",
+    locale: "en_US",
     url: "https://sroyauthor.vercel.app",
-    siteName: "sroyauthor",
-    title: "Sangita Roy",
-    description: "Discover the enchanting world of Sangita Roy, a nature-fiction author blending nature and imagination through fiction.",
+    siteName: "S.Roy Author",
+    title: "Sangita Roy | Author",
+    description:
+      "Discover the enchanting world of Sangita Roy, a nature-fiction author blending nature and imagination through fiction.",
     images: [
       {
         url: "https://sroyauthor.vercel.app/sp.png",
         width: 1200,
         height: 630,
         alt: "Sangita Roy | Author",
+        type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Sangita Roy | Author",
-    description: "Discover the enchanting world of Sangita Roy, a nature-fiction author blending nature and imagination through fiction.",
+    description:
+      "Discover the enchanting world of Sangita Roy, a nature-fiction author blending nature and imagination through fiction.",
     images: ["https://sroyauthor.vercel.app/sp.png"],
+    creator: "@sangitaroy",
+    site: "@sangitaroy",
   },
-  manifest: "/manifest.json",
+  manifest: "/manifest.webmanifest",
+  keywords: [
+    "Sangita Roy",
+    "nature fiction author",
+    "environmental stories",
+    "imaginative writing",
+    "Indian author",
+  ],
   icons: {
     icon: [
-      { url: "/images/favicon/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      {
+        url: "/images/favicon/favicon-96x96.png",
+        sizes: "96x96",
+        type: "image/png",
+      },
       { url: "/images/favicon/favicon.svg", type: "image/svg+xml" },
       { url: "/images/favicon/favicon.ico" },
     ],
@@ -44,13 +64,16 @@ export const metadata = {
   },
   alternates: {
     canonical: "https://sroyauthor.vercel.app/",
+    languages: {
+      "en-US": "https://sroyauthor.vercel.app/",
+    },
   },
 };
 
-export const viewport = {
+export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1.0,
-  themeColor: "#d9c4b0",
+  themeColor: "#67523d",
 };
 
 const quicksand = localFont({
@@ -71,17 +94,59 @@ const radley = localFont({
   display: "swap",
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+
   return (
-    <html lang="en" className={`${quicksand.variable} ${radley.variable}`}>
+    <html
+      lang="en"
+      className={`${quicksand.variable} ${radley.variable}`}
+      data-scroll-behavior="smooth"
+    >
       <head>
         <meta charSet="UTF-8" />
         <meta name="apple-mobile-web-app-title" content="S.Roy" />
+        <Script
+          id="structured-data-person"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Sangita Roy",
+              url: "https://sroyauthor.vercel.app",
+              image: "https://sroyauthor.vercel.app/sp.png",
+              jobTitle: "Author",
+              worksFor: { "@type": "Person", name: "S.Roy Author" },
+              description:
+                "Nature-fiction author blending nature and imagination through fiction.",
+              sameAs: [
+                "https://github.com/smarg1",
+                "https://www.linkedin.com/in/sangita-roy",
+                "https://x.com/sangitaroy",
+              ],
+              publisher: {
+                "@type": "Person",
+                name: "S.Roy Author",
+                logo: {
+                  "@type": "ImageObject",
+                  url: "https://sroyauthor.vercel.app/sp.png",
+                },
+              },
+            }),
+          }}
+        />
       </head>
       <body>
-        <Navbar />
-        <PageTransition>{children}</PageTransition>
-        <Footer />
+        <Navbar/>
+        <PageTransition>
+          {children}
+          <Footer />
+        </PageTransition>
         <SpeedInsights />
         <Analytics />
       </body>

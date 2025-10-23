@@ -10,6 +10,9 @@
   font-family: sans-serif;
   text-decoration: none;
   color: rgb(var(--cream));
+  opacity: 0;
+  transform: translateY(20px);
+  animation: bounceIn 0.8s ease-out forwards;
 }
 
 .card:hover {
@@ -31,8 +34,9 @@
 }
 
 .card__title {
+  text-align: center;
   margin: 0 0 8px;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: rgb(var(--cream));
 }
@@ -49,4 +53,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-height: calc(1.45em * 3);
+}
+
+/* === Bounce-in animation === */
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }

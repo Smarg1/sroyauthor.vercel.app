@@ -1,12 +1,12 @@
 import Link from "next/link";
 import styles from "@/styles/error.module.css";
 
-export default function NotFound() {
+export default function Unauthorized() {
   return (
     <div className={styles.container}>
-      <h1 className={styles.title404}>404</h1>
+      <h1 className={styles.title404}>401</h1>
       <p className={styles.message}>
-        Hmmm… we couldn’t find the page you’re looking for.
+        Unauthorized – Who are you, and how did you get here?
       </p>
       <Link href="/" className={styles.homeLink}>
         Back to Home

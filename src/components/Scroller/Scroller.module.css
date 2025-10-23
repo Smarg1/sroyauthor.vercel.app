@@ -1,0 +1,194 @@
+/* === Base Layout === */
+.worksWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  padding: 0 5px;
+}
+
+.workItems {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1.2rem;
+  width: 100%;
+  padding: 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.workItems::-webkit-scrollbar {
+  display: none;
+}
+
+/* === Work Card === */
+.flipContainer {
+  width: 220px;
+  height: 350px;
+  flex-shrink: 0;
+  perspective: 1000px;
+  scroll-snap-align: start;
+}
+
+.flipper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.45s ease;
+}
+
+.flipContainer:hover .flipper {
+  transform: rotateY(180deg);
+}
+
+/* === Front & Back === */
+.front,
+.back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  cursor: pointer;
+}
+
+.front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.back {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #333;
+  padding: 1rem;
+  transform: rotateY(180deg);
+}
+
+/* === Text === */
+.workTitle {
+  font-weight: 600;
+  font-size: 1.1em;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 0.5em;
+}
+
+.workLink {
+  text-decoration: none;
+}
+
+.workDesc {
+  flex: 1;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #ddd;
+  text-align: justify;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  line-clamp: 10;
+  -webkit-box-orient: vertical;
+}
+
+/* === Scroll Buttons === */
+.scrollBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(var(--cream));
+  cursor: pointer;
+  font-family: var(--font-quicksand), sans-serif;
+  font-weight: 500;
+  font-size: 1.2em;
+  transition: background-color 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+  opacity: 0;
+  animation: fadeUpButton 0.8s ease forwards;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.scrollBtn:hover {
+  filter: brightness(0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.scrollBtn img {
+  width: 1.2em;
+  height: auto;
+  filter: invert(1);
+}
+
+.scrollBtn.left {
+  left: -10px;
+}
+.scrollBtn.right {
+  right: -10px;
+}
+
+.mobileFront {
+  position: relative;
+  width: 220px;
+  height: 350px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.mobileFront img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* === Responsive === */
+@media (max-width: 800px) {
+  .scrollBtn {
+    display: none;
+  }
+  .flipContainer:hover .flipper {
+    transform: none;
+  }
+  .flipper,
+  .scrollBtn {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* === Reduced Motion === */
+@media (prefers-reduced-motion: reduce) {
+  .flipper,
+  .scrollBtn {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* === Animations === */
+@keyframes fadeUpButton {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

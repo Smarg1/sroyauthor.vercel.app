@@ -21,7 +21,6 @@ log.txt
 *.sw?
 .DS_Store
 Thumbs.db
-/package-lock.json
 /yarn.lock
 /pnpm-lock.yaml
 /coverage/
@@ -29,3 +28,4 @@ Thumbs.db
 .next
 venv
 .venv
+.vercel
