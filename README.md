@@ -1,102 +1,84 @@
+# [sroyauthor.vercel.app](https://sroyauthor.vercel.app)
 
-# sroyauthor.vercel.app
-
-> A sleek, personal portfolio & project showcase — deployed with Vercel and built with modern front-end tools.
-
-[Live Site](https://sroyauthor.vercel.app) | [GitHub Repository](https://github.com/Smarg1/sroyauthor.vercel.app)
+A fast, minimal personal blogging and portfolio website built for a single author. Optimized for speed, scalability, and modern web architecture.
 
 ---
 
 ## Table of Contents
-
-- [About](#about)  
-- [Features](#features)  
-- [Tech Stack](#tech-stack)   
-- [Project Structure](#project-structure)  
-- [Deployment](#deployment)  
-- [Contributing](#contributing)  
-- [License](#license)  
+- [About](#about)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Deployment](#deployment)
+- [License](#license)
 - [Contact](#contact)
 
 ---
 
 ## About
+SroyAuthor is a single-author blogging platform and personal portfolio. It uses **Supabase** for database and image storage, **Redis** for caching, and leverages Next.js 15 with TypeScript and App Router.  
 
-sroyauthor.vercel.app is a personal website designed to showcase my blogs, works, and creative projects. It offers a clean, responsive, and fast user experience to highlight skills, writing, and portfolio pieces.
+The project uses **Server-Side Rendering (SSR)** for faster initial page loads, **image optimization** with Next.js `<Image>` component, and optimized navigation via Next.js `<Link>` for client-side routing.
 
 ---
 
 ## Features
-
-- Static pages for **Home**, **Works**, and **Blogs**  
-- Lightweight & minimal design for quick loading  
-- Fully responsive layout across devices  
-- Easy content updates via simple HTML/​CSS structure  
-- Deployed seamlessly using Vercel for instant publishing  
+- Fully dynamic blog and portfolio pages
+- Supabase database integration for posts and metadata
+- Supabase Storage for images
+- Redis caching for ultra-fast content retrieval
+- **Server-Side Rendering (SSR)** for SEO and performance
+- Next.js `<Image>` component for automatic image optimization
+- Next.js `<Link>` for client-side navigation
+- Responsive and minimal design (CSS-based, no Tailwind)
+- Next.js 15 with App Router and TypeScript
+- Webpack-based build (default Next.js build)
+- Vercel deployment for instant updates
 
 ---
 
 ## Tech Stack
-
-| Component        | Technology / Tool              |
-|------------------|---------------------------------|
-| Markup & Styling | HTML, CSS                      |
-| Scripting        | JavaScript                     |
-| Bundler / Dev    | Vite                           |
-| Hosting / CDN    | Vercel                        |
+| Component        | Technology / Tool          |
+|-----------------|---------------------------|
+| Framework        | Next.js 15 (App Router)    |
+| Language         | TypeScript                 |
+| Styling          | CSS                        |
+| Database         | Supabase (Postgres)        |
+| Image Storage    | Supabase Storage           |
+| Cache            | Upstash Redis              |
+| Deployment       | Vercel                     |
+| Build Tool       | Webpack (Next.js default)  |
 
 ---
 
 ## Project Structure
-
-```text
-sroyauthor.vercel.app/
-├─ public/                ← Static files (images, icons, etc.)
-├─ src/                   ← Source code (HTML templates, CSS, JS)
-├─ index.html             ← Homepage
-├─ works.html             ← Projects / Portfolio page
-├─ blogs.html             ← Blog posts listing
-├─ assets/                ← Stylesheets, images, etc.
-├─ package.json           ← Project metadata & scripts
-├─ vite.config.js         ← Build / dev server configuration
-└─ vercel.json            ← Vercel deployment configuration
 ```
-
+sroyauthor.vercel.app/
+├─ app/                     ← Next.js App Router pages & layouts
+├─ public/                  ← Static assets like icons & images
+├─ components/              ← Reusable React components
+├─ lib/                     ← Utilities & Supabase/Redis clients
+├─ styles/                  ← Global CSS files
+├─ package.json             ← Project metadata & scripts
+├─ tsconfig.json            ← TypeScript configuration
+├─ next.config.js           ← Next.js configuration
+└─ vercel.json              ← Vercel deployment config
+```
 ---
 
 ## Deployment
-
-* Automatically deployed via Vercel — every push to the main branch triggers a build & redeploy.
-* Configuration for routing, build settings, environment handled in `vercel.json`.
-
----
-
-## Contributing
-
-Contributions, suggestions, and feedback are welcome! Here’s how:
-
-1. Fork the repository
-2. Create a new branch: `git checkout -b feature/YourFeature`
-3. Make your changes & commit: `git commit -m "Add feature"`
-4. Push to your branch: `git push origin feature/YourFeature`
-5. Open a pull request
-
-Please ensure any code drops maintain coding style and don’t break layouts.
+- Deployed on **Vercel** with automatic updates on push to main branch
+- **Supabase** for database and storage
+- **Upstash Redis** for caching frequently accessed data
+- Server-side rendering (SSR) ensures fast page loads and SEO optimization
+- Image optimization handled automatically via Next.js `<Image>` component
 
 ---
 
 ## License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
 ## Contact
-
-* Author: **Smarg1**
-* GitHub: [Smarg1/sroyauthor.vercel.app](https://github.com/Smarg1/sroyauthor.vercel.app)
-* If you’ve got questions, suggestions, or just want to say hi — feel free to open an issue!
-
----
-
-> *“Simplify what you see, beautify what you use.”*
+Reach out via GitHub Issues.
