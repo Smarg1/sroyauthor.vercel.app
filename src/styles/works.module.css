@@ -6,7 +6,7 @@
 }
 
 .works_title {
-  font-size: 4rem;
+  font-size: min(4rem, 10vw);
   text-align: center;
   font-weight: 700;
   color: #222;

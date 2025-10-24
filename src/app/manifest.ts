@@ -1,0 +1,26 @@
+import type { MetadataRoute } from 'next';
+
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  return {
+    name: "S.Roy Author",
+    short_name: "S.Roy",
+    start_url: "/",
+    display: "standalone",
+    background_color: "#d9c4b0",
+    theme_color: "#000000",
+    icons: [
+      {
+        src: "/images/favicon/web-app-manifest-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "maskable",
+      },
+      {
+        src: "/images/favicon/web-app-manifest-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
+      },
+    ],
+  };
+}
