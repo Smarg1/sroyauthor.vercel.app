@@ -3,7 +3,7 @@ import { slugify } from "@/utils/Slugify";
 import { getBlogs, getWorks } from "@/utils/fetchData";
 import type { Blog, Work } from "@/utils/fetchData";
 
-const BASE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL || "";
+const BASE_URL = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` || "";
 
 function calculatePriority(path: string) {
   const depth = path.split("/").filter(Boolean).length;
