@@ -16,7 +16,7 @@ A fast, minimal personal blogging and portfolio website built for a single autho
 ---
 
 ## About
-SroyAuthor is a single-author blogging platform and personal portfolio. It uses **Supabase** for database and image storage, **Redis** for caching, and leverages Next.js 15 with TypeScript and App Router.  
+SroyAuthor is a single-author blogging platform and personal portfolio. It uses **Supabase** for database and image storage, **Redis** for caching, and leverages Next.js 16 with TypeScript and App Router.  
 
 The project uses **Server-Side Rendering (SSR)** for faster initial page loads, **image optimization** with Next.js `<Image>` component, and optimized navigation via Next.js `<Link>` for client-side routing.
 
@@ -31,7 +31,7 @@ The project uses **Server-Side Rendering (SSR)** for faster initial page loads, 
 - Next.js `<Image>` component for automatic image optimization
 - Next.js `<Link>` for client-side navigation
 - Responsive and minimal design (CSS-based, no Tailwind)
-- Next.js 15 with App Router and TypeScript
+- Next.js 16 with App Router and TypeScript
 - Webpack-based build (default Next.js build)
 - Vercel deployment for instant updates
 
@@ -40,7 +40,7 @@ The project uses **Server-Side Rendering (SSR)** for faster initial page loads, 
 ## Tech Stack
 | Component        | Technology / Tool          |
 |-----------------|---------------------------|
-| Framework        | Next.js 15 (App Router)    |
+| Framework        | Next.js 16 (App Router)    |
 | Language         | TypeScript                 |
 | Styling          | CSS                        |
 | Database         | Supabase (Postgres)        |
