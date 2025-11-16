@@ -21,7 +21,7 @@ export default async function HomePage() {
           Exploring the intricate bond between humanity and the earth’s secrets.
         </p>
         <div className={styles.fadeItem}>
-          <Button label="Read More" href="/blogs" ariaLabel="Read More" />
+          <Button label="Explore" href="/blogs" ariaLabel="Explore" className={styles["btn"]} />
         </div>
       </header>
 

@@ -5,21 +5,25 @@ import styles from "./Button.module.css";
 import Link from "next/link";
 
 interface ButtonProps {
-  label?: string;  onClick?: () => void;  href?: string;
+  label?: string;
+  onClick?: () => void;
+  href?: string;
   ariaLabel?: string;
+  className?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
   label = "Button",
   onClick,
   href,
-  ariaLabel,
+  ariaLabel = "button",
+  className = "",
 }) => {
   if (href) {
     return (
       <Link
         href={href}
-        className={styles.button}
+        className={`${styles.button} ${className}`}
         aria-label={ariaLabel || label}
         prefetch
       >
@@ -31,7 +35,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       type="button"
-      className={styles.button}
+      className={`${styles.button} ${className}`}
       onClick={onClick}
       aria-label={ariaLabel || label}
     >

@@ -6,7 +6,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import localFont from "next/font/local";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import PageTransition from "@/hooks/PageTransition";
 
 export const metadata: Metadata = {
   title: "Sangita Roy | Author",
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://sroyauthor.vercel.app",
     siteName: "S.Roy Author",
-    title: "Sangita Roy | Author",
+    title: "Sangita Roy",
     description:
       "Discover the enchanting world of Sangita Roy, a nature-fiction author blending nature and imagination through fiction.",
     images: [
@@ -28,7 +27,7 @@ export const metadata: Metadata = {
         url: "https://sroyauthor.vercel.app/sp.png",
         width: 1200,
         height: 630,
-        alt: "Sangita Roy | Author",
+        alt: "Sangita Roy",
         type: "image/png",
       },
     ],
@@ -107,7 +106,6 @@ export default async function RootLayout({
       data-scroll-behavior="smooth"
     >
       <head>
-        <meta charSet="UTF-8" />
         <meta name="apple-mobile-web-app-title" content="S.Roy" />
         <Script
           id="structured-data-person"
@@ -143,10 +141,8 @@ export default async function RootLayout({
       </head>
       <body>
         <Navbar/>
-        <PageTransition>
-          {children}
-          <Footer />
-        </PageTransition>
+        {children}
+        <Footer />
         <SpeedInsights />
         <Analytics />
       </body>
