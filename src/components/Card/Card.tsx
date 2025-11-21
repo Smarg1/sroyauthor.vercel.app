@@ -1,6 +1,7 @@
-import Image from "next/image";
-import styles from "./Card.module.css";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
+
+import styles from './Card.module.css';
 
 type CardProps = {
   href: string;

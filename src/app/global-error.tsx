@@ -1,17 +1,18 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import Link from "next/link";
-import styles from "@/styles/error.module.css";
+import Link from 'next/link';
+import { useEffect } from 'react';
+
+import styles from '@/styles/error.module.css';
 
 interface GlobalErrorProps {
   error: Error & { digest?: string; statusCode?: number };
 }
 
 export const viewport = {
-  width: "device-width",
+  width: 'device-width',
   initialScale: 1.0,
-  themeColor: "#d9c4b0",
+  themeColor: '#d9c4b0',
 };
 
 export default function GlobalError({ error }: GlobalErrorProps) {
@@ -26,7 +27,7 @@ export default function GlobalError({ error }: GlobalErrorProps) {
       <div className={styles.container}>
         <h1 className={styles.status}>{statusCode}</h1>
         <p className={styles.message}>
-          {error.message || "Oops… something went wrong."}
+          {error.message || 'Oops… something went wrong.'}
         </p>
         <Link href="/" className={styles.homeLink}>
           Back to Home

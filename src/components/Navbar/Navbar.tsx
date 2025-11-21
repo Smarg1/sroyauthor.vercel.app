@@ -1,15 +1,16 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import styles from "./Navbar.module.css";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState, useEffect, useCallback } from 'react';
+
+import styles from './Navbar.module.css';
 
 const navItems = [
-  { href: "/#about", label: "About" },
-  { href: "/works", label: "Works" },
-  { href: "/blogs", label: "Blogs" },
-  { href: "#contact", label: "Contact" },
+  { href: '/#about', label: 'About' },
+  { href: '/works', label: 'Works' },
+  { href: '/blogs', label: 'Blogs' },
+  { href: '#contact', label: 'Contact' },
 ];
 
 export default function Navbar() {
@@ -21,12 +22,12 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => setMenuOpen(false);
-    window.addEventListener("scroll", handleScroll);
-    document.body.style.overflow = menuOpen ? "hidden" : "auto";
+    window.addEventListener('scroll', handleScroll);
+    document.body.style.overflow = menuOpen ? 'hidden' : 'auto';
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      document.body.style.overflow = "auto";
+      window.removeEventListener('scroll', handleScroll);
+      document.body.style.overflow = 'auto';
     };
   }, [menuOpen]);
 
@@ -49,11 +50,11 @@ export default function Navbar() {
         aria-label="Toggle Menu"
         aria-expanded={menuOpen}
         aria-controls="nav-menu"
-        className={`${styles.menuToggle} ${menuOpen ? styles.open : ""}`}
+        className={`${styles.menuToggle} ${menuOpen ? styles.open : ''}`}
         onClick={toggleMenu}
       >
         <Image
-          src={menuOpen ? "/images/icons/close.svg" : "/images/icons/bars.svg"}
+          src={menuOpen ? '/images/icons/close.svg' : '/images/icons/bars.svg'}
           alt="Menu toggle"
           width={24}
           height={24}
@@ -61,7 +62,7 @@ export default function Navbar() {
       </button>
       <div
         id="nav-menu"
-        className={`${styles.menuItems} ${menuOpen ? styles.active : ""}`}
+        className={`${styles.menuItems} ${menuOpen ? styles.active : ''}`}
       >
         {navItems.map(({ href, label }) => (
           <div key={label} className={styles.navItem}>
@@ -75,7 +76,7 @@ export default function Navbar() {
         ))}
       </div>
       <div
-        className={`${styles.overlay} ${menuOpen ? styles.show : ""}`}
+        className={`${styles.overlay} ${menuOpen ? styles.show : ''}`}
         onClick={handleOverlayClick}
         aria-hidden="true"
       />

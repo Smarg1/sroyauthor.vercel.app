@@ -1,5 +1,6 @@
-import Link from "next/link";
-import styles from "@/styles/error.module.css";
+import Link from 'next/link';
+
+import styles from '@/styles/error.module.css';
 
 export default function NotFound() {
   return (

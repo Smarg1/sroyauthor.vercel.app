@@ -1,11 +1,13 @@
-"use client";
+'use client';
 
-import { useRef, useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { slugify } from "@/utils/Slugify";
-import styles from "./Scroller.module.css";
-import type { Work } from "@/utils/fetchData";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRef, useEffect, useState } from 'react';
+
+import type { Work } from '@/utils/fetchData';
+import { slugify } from '@/utils/Slugify';
+
+import styles from './Scroller.module.css';
 
 interface Props {
   works: Work[];
@@ -18,12 +20,12 @@ export default function ScrollWrapper({ works }: Props) {
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 800);
     checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const scrollLeft = () => worksRef.current?.scrollBy({ left: -300, behavior: "smooth" });
-  const scrollRight = () => worksRef.current?.scrollBy({ left: 300, behavior: "smooth" });
+  const scrollLeft = () => worksRef.current?.scrollBy({ left: -300, behavior: 'smooth' });
+  const scrollRight = () => worksRef.current?.scrollBy({ left: 300, behavior: 'smooth' });
 
   return (
     <div className={styles.worksWrapper}>
@@ -34,7 +36,7 @@ export default function ScrollWrapper({ works }: Props) {
       <div className={styles.workItems} ref={worksRef}>
         {works.map((work) => {
           const slug = slugify(work.name);
-          const imageSrc = work.image ?? "/not-found.svg";
+          const imageSrc = work.image ?? '/not-found.svg';
 
           return (
             <div key={work.id} className={styles.flipContainer}>

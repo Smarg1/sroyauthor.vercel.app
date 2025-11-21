@@ -1,9 +1,11 @@
-import styles from "@/styles/blogs.module.css";
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import { getSlug, getBlogs, Blog } from "@/utils/fetchData";
-import { Metadata } from "next";
-import { slugify } from "@/utils/Slugify";
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+
+import styles from '@/styles/blogs.module.css';
+import type { Blog } from '@/utils/fetchData';
+import { getSlug, getBlogs } from '@/utils/fetchData';
+import { slugify } from '@/utils/Slugify';
 
 export const revalidate = 600;
 
@@ -13,18 +15,18 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const blog: Blog | null = await getSlug<Blog>(slug, "blogs");
+  const blog: Blog | null = await getSlug<Blog>(slug, 'blogs');
 
   if (!blog) {
     return {
-      title: "Blog Not Found | Sangita Roy",
-      description: "This blog does not exist.",
+      title: 'Blog Not Found | Sangita Roy',
+      description: 'This blog does not exist.',
     };
   }
 
   const shortDescription = blog.description
-    ? blog.description.split("\n").slice(0, 3).join(" ").slice(0, 160)
-    : "Read this insightful blog by Sangita Roy.";
+    ? blog.description.split('\n').slice(0, 3).join(' ').slice(0, 160)
+    : 'Read this insightful blog by Sangita Roy.';
 
   const blogSlug = slugify(blog.name);
 
@@ -35,28 +37,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: `https://sroyauthor.vercel.app/blogs/${blogSlug}`,
     },
     openGraph: {
-      type: "article",
+      type: 'article',
       url: `https://sroyauthor.vercel.app/blogs/${blogSlug}`,
       title: `${blog.name} | Sangita Roy Blogs`,
       description: shortDescription,
-      siteName: "Sangita Roy | Author",
+      siteName: 'Sangita Roy | Author',
       images: blog.image
         ? Array.isArray(blog.image)
           ? blog.image.map((img) => ({ url: img, width: 1200, height: 630 }))
           : [{ url: blog.image, width: 1200, height: 630 }]
-        : [{ url: "https://sroyauthor.vercel.app/sp.png", width: 1200, height: 630 }],
+        : [{ url: 'https://sroyauthor.vercel.app/sp.png', width: 1200, height: 630 }],
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: `${blog.name} | Sangita Roy Blogs`,
       description: shortDescription,
       images: blog.image
         ? Array.isArray(blog.image)
           ? blog.image
           : [blog.image]
-        : ["https://sroyauthor.vercel.app/sp.png"],
-      creator: "@sangitaroy",
-      site: "@sangitaroy",
+        : ['https://sroyauthor.vercel.app/sp.png'],
+      creator: '@sangitaroy',
+      site: '@sangitaroy',
     },
   };
 }
@@ -70,15 +72,15 @@ export async function generateStaticParams() {
 
 export default async function BlogPage({ params }: Props) {
   const { slug } = await params;
-  const blog: Blog | null = await getSlug<Blog>(slug, "blogs");
+  const blog: Blog | null = await getSlug<Blog>(slug, 'blogs');
 
   if (!blog) return notFound();
 
   const images: string[] = Array.isArray(blog.image)
     ? blog.image
     : blog.image
-    ? [blog.image]
-    : [];
+      ? [blog.image]
+      : [];
 
   return (
     <div className={styles.bcontainer}>

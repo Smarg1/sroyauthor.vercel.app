@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import styles from "./Button.module.css";
-import Link from "next/link";
+import Link from 'next/link';
+import React from 'react';
+
+import styles from './Button.module.css';
 
 interface ButtonProps {
   label?: string;
@@ -13,11 +14,11 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({
-  label = "Button",
+  label = 'Button',
   onClick,
   href,
-  ariaLabel = "button",
-  className = "",
+  ariaLabel = 'button',
+  className = '',
 }) => {
   if (href) {
     return (

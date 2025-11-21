@@ -1,17 +1,18 @@
-import Image from "next/image";
-import Heading from "@/components/Heading/Heading";
-import Button from "@/components/Button/Button";
-import ScrollWrapper from "@/components/Scroller/Scroller";
-import { getWorks, getAuthor } from "@/utils/fetchData";
-import styles from "@/styles/index.module.css";
+import Image from 'next/image';
+
+import Button from '@/components/Button/Button';
+import Heading from '@/components/Heading/Heading';
+import ScrollWrapper from '@/components/Scroller/Scroller';
+import styles from '@/styles/index.module.css';
+import { getWorks, getAuthor } from '@/utils/fetchData';
 
 export const revalidate = 3600;
 
 export default async function HomePage() {
   const [works, author] = await Promise.all([getWorks(), getAuthor()]);
 
-  const bio = author?.description || "Bio not found.";
-  const pfp = author?.pfp || "/not-found.svg";
+  const bio = author?.description || 'Bio not found.';
+  const pfp = author?.pfp || '/not-found.svg';
 
   return (
     <>
@@ -21,7 +22,7 @@ export default async function HomePage() {
           Exploring the intricate bond between humanity and the earth’s secrets.
         </p>
         <div className={styles.fadeItem}>
-          <Button label="Explore" href="/blogs" ariaLabel="Explore" className={styles["btn"]} />
+          <Button label="Explore" href="/blogs" ariaLabel="Explore" className={styles['btn']} />
         </div>
       </header>
 
