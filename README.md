@@ -1,84 +1,68 @@
-# [sroyauthor.vercel.app](https://sroyauthor.vercel.app)
+# sroyauthor.vercel.app
 
-A fast, minimal personal blogging and portfolio website built for a single author. Optimized for speed, scalability, and modern web architecture.
+![CI](https://github.com/Smarg1/sroyauthor.vercel.app/actions/workflows/ci.yml/badge.svg)
+![CodeQL](https://github.com/Smarg1/sroyauthor.vercel.app/actions/workflows/codeql.yml/badge.svg)
 
----
+A modern web application built with Next.js 16, React 19, and TypeScript 5.  
+The architecture prioritizes reliability, strict validation, and continuous security enforcement.  
+Deployment operates through Vercel with edge-optimized features and integrated analytics.
 
-## Table of Contents
-- [About](#about)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Deployment](#deployment)
-- [License](#license)
-- [Contact](#contact)
+## Overview
 
----
+The project integrates:
 
-## About
-SroyAuthor is a single-author blogging platform and personal portfolio. It uses **Supabase** for database and image storage, **Redis** for caching, and leverages Next.js 16 with TypeScript and App Router.  
+- Next.js 16 (App Router)
+- React 19
+- TypeScript 5
+- Supabase for data operations and authentication
+- Upstash Redis for caching and rate-limiting
+- Vercel analytics and performance tooling
+- PostCSS with Autoprefixer
+- Automated CI, CodeQL analysis, and security scanning via GitHub Actions
+- Dependabot automation for dependency governance
 
-The project uses **Server-Side Rendering (SSR)** for faster initial page loads, **image optimization** with Next.js `<Image>` component, and optimized navigation via Next.js `<Link>` for client-side routing.
+Strict linting rules enforce zero warnings.  
+TypeScript operates in strict, no-emit validation mode.  
+Node 24.12.0 is the target runtime across CI and production.
 
----
+## Structure
 
-## Features
-- Fully dynamic blog and portfolio pages
-- Supabase database integration for posts and metadata
-- Supabase Storage for images
-- Redis caching for ultra-fast content retrieval
-- **Server-Side Rendering (SSR)** for SEO and performance
-- Next.js `<Image>` component for automatic image optimization
-- Next.js `<Link>` for client-side navigation
-- Responsive and minimal design (CSS-based, no Tailwind)
-- Next.js 16 with App Router and TypeScript
-- Webpack-based build (default Next.js build)
-- Vercel deployment for instant updates
-
----
-
-## Tech Stack
-| Component        | Technology / Tool          |
-|-----------------|---------------------------|
-| Framework        | Next.js 16 (App Router)    |
-| Language         | TypeScript                 |
-| Styling          | CSS                        |
-| Database         | Supabase (Postgres)        |
-| Image Storage    | Supabase Storage           |
-| Cache            | Upstash Redis              |
-| Deployment       | Vercel                     |
-| Build Tool       | Webpack (Next.js default)  |
-
----
-
-## Project Structure
 ```
-sroyauthor.vercel.app/
-├─ app/                     ← Next.js App Router pages & layouts
-├─ public/                  ← Static assets like icons & images
-├─ components/              ← Reusable React components
-├─ lib/                     ← Utilities & Supabase/Redis clients
-├─ styles/                  ← Global CSS files
-├─ package.json             ← Project metadata & scripts
-├─ tsconfig.json            ← TypeScript configuration
-├─ next.config.js           ← Next.js configuration
-└─ vercel.json              ← Vercel deployment config
+
+/
+├─ src/
+│  ├─ app/              # Routing and server components
+│  ├─ components/       # UI systems and shared elements
+│  ├─ lib/              # Internal utilities and logic modules
+│  └─ styles/           # Styling and global definitions
+│
+├─ public/              # Static assets
+├─ .github/             # CI, CodeQL, security, Dependabot configs
+├─ package.json
+├─ tsconfig.json
+└─ next.config.js
+
 ```
----
 
-## Deployment
-- Deployed on **Vercel** with automatic updates on push to main branch
-- **Supabase** for database and storage
-- **Upstash Redis** for caching frequently accessed data
-- Server-side rendering (SSR) ensures fast page loads and SEO optimization
-- Image optimization handled automatically via Next.js `<Image>` component
+## Technology Notes
 
----
+The codebase uses:
+
+- ESLint 9 with warnings treated as errors
+- TypeScript strict mode
+- Deterministic dependency installation
+- Automated vulnerability detection
+- Edge-optimized production runtime
+
+## Security & Quality
+
+- CodeQL scanning for JavaScript/TypeScript
+- Dependency Review enforcement on any severity issue
+- Scheduled and PR-based security checks
+- CI enforcing lint, type, and build correctness before deployment
+- Dependabot updates for npm packages and GitHub Actions
 
 ## License
-This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
 
----
-
-## Contact
-Reach out via GitHub Issues.
+Proprietary.  
+All rights reserved.
