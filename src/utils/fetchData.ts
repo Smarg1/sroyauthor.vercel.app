@@ -1,109 +1,279 @@
 'use server';
 
-import { redis } from '@/lib/redis';
-import { supabase } from '@/lib/supabase';
-import { slugify } from '@/utils/Slugify';
+import { unstable_cache } from 'next/cache';
 
-// ===================== Types ===================== //
-export interface Work {
-  id: number;
-  name: string;
-  description: string;
-  image: string | null;
+import type {
+  Blog,
+  Book,
+  Contribution,
+  MetadataKey,
+  MetadataValue,
+} from '@/lib/types/app.types';
+import type { Database } from '@/lib/types/db.types';
+
+import { createSupabaseServerClient } from '@/lib/supabase';
+
+/* ------------------------------------------------------------------ */
+/* Schema aliases                                                     */
+/* ------------------------------------------------------------------ */
+
+type Api = Database['api'];
+type ContentNodeRow = Api['Tables']['content_nodes']['Row'];
+
+type ContentNodePreview = Pick<
+  ContentNodeRow,
+  'created_at' | 'description' | 'slug' | 'title'
+>;
+
+/* ------------------------------------------------------------------ */
+/* Core mapper                                                        */
+/* ------------------------------------------------------------------ */
+
+function mapNode(node: ContentNodePreview) {
+  return {
+    slug: node.slug,
+    title: node.title,
+    description: node.description,
+    date: node.created_at,
+  };
 }
 
-export interface Author {
-  id: number;
-  description: string;
-  pfp: string;
+const REVALIDATE_TIME = 1800;
+
+/* ------------------------------------------------------------------ */
+/* Metadata                                                           */
+/* ------------------------------------------------------------------ */
+
+async function _getMetadataValue(key: MetadataKey): Promise<MetadataValue | null> {
+  const supabase = createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from('metadata')
+    .select('value')
+    .eq('key', key)
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  return data?.value ?? null;
 }
 
-export interface Blog {
-  id: number;
-  name: string;
-  description: string;
-  image: string | string[] | null;
-}
+export const getMetadataValue = unstable_cache(_getMetadataValue, ['metadata'], {
+  revalidate: REVALIDATE_TIME,
+  tags: ['metadata'],
+});
 
-// ===================== Helpers ===================== //
-function normalizeImage(image: string | string[] | null | undefined): string | string[] {
-  if (!image) return '/not-found.svg';
-  if (Array.isArray(image)) return image.length > 0 ? image : ['/not-found.svg'];
-  try {
-    const parsed = JSON.parse(image);
-    if (Array.isArray(parsed) && parsed.length > 0) {
-      return parsed.map((v) => String(v));
-    }
-    return String(parsed);
-  } catch {
-    return image;
-  }
-}
-// ===================== Core Fetch Function ===================== //
-async function getTableData<T extends object>(
-  table: string,
-  columns: string,
-  transform?: (item: T) => T,
-): Promise<T[]> {
-  const cacheKey = `table:${table}:${columns}`;
-  const cached = await redis.get<T[]>(cacheKey);
-  if (cached) return cached;
+/* ------------------------------------------------------------------ */
+/* Blogs                                                              */
+/* ------------------------------------------------------------------ */
 
-  const { data, error } = await supabase.from(table).select(columns);
+async function _getBlogs(): Promise<Blog[]> {
+  const supabase = createSupabaseServerClient();
 
-  if (error || !data) {
-    console.error('[fetchData] Supabase error fetching %s:', table, error);
-    return [];
-  }
+  const { data, error } = await supabase.from('blogs').select(`
+    content,
+    tags,
+    image,
+    content_nodes!inner (
+      slug,
+      title,
+      description,
+      created_at
+    )
+  `);
 
-  const rows = Array.isArray(data)
-    ? (data as unknown as Record<string, unknown>[])
-    : [];
+  if (error) throw error;
 
-  const processed = rows.map((item) => {
-    const obj = { ...item } as Record<string, unknown>;
-
-    if ('image' in obj && typeof obj.image === 'string') {
-      obj.image = normalizeImage(obj.image as string | null | undefined);
-    }
-
-    return transform ? transform(obj as T) : (obj as T);
-  });
-
-  await redis.set(cacheKey, processed, { ex: 600 });
-  return processed;
-}
-
-// ===================== Public Fetchers ===================== //
-export async function getWorks(): Promise<Work[]> {
-  return getTableData<Work>('works', 'id, name, description, image', (item) => ({
-    ...item,
-    image: item.image,
+  return data.map((row) => ({
+    ...mapNode(row.content_nodes),
+    type: 'blogs' as const,
+    content: row.content,
+    tags: row.tags,
+    image: row.image,
   }));
 }
 
-export async function getAuthor(): Promise<Author | null> {
-  const authors = await getTableData<Author>('author', 'id, description, pfp');
-  return authors.length > 0 ? authors[0] : null;
+export const getBlogs = unstable_cache(_getBlogs, ['blogs'], {
+  revalidate: REVALIDATE_TIME,
+  tags: ['blogs'],
+});
+
+async function _getBlogBySlug(slug: string): Promise<Blog | null> {
+  const supabase = createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from('blogs')
+    .select(
+      `
+      content,
+      tags,
+      image,
+      content_nodes!inner (
+        slug,
+        title,
+        description,
+        created_at
+      )
+    `,
+    )
+    .eq('content_nodes.slug', slug)
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!data) return null;
+
+  return {
+    ...mapNode(data.content_nodes),
+    type: 'blogs' as const,
+    content: data.content,
+    tags: data.tags,
+    image: data.image,
+  };
 }
 
-export async function getBlogs(): Promise<Blog[]> {
-  return getTableData<Blog>(
-    'blogs',
-    'id, name, description, image',
-    (item) => ({
-      ...item,
-      image: normalizeImage(item.image),
-    }),
-  );
+export const getBlogBySlug = unstable_cache(_getBlogBySlug, ['blog-slug'], {
+  revalidate: REVALIDATE_TIME,
+  tags: ['blogs'],
+});
+
+/* ------------------------------------------------------------------ */
+/* Books                                                              */
+/* ------------------------------------------------------------------ */
+
+async function _getBooks(): Promise<Book[]> {
+  const supabase = createSupabaseServerClient();
+
+  const { data, error } = await supabase.from('books').select(`
+    isbn,
+    image,
+    content_nodes!inner (
+      slug,
+      title,
+      description,
+      created_at
+    )
+  `);
+
+  if (error) throw error;
+
+  return data.map((row) => ({
+    ...mapNode(row.content_nodes),
+    type: 'books' as const,
+    isbn: row.isbn,
+    image: row.image,
+  }));
 }
 
-// ===================== Fetch Single Item by Slug ===================== //
-export async function getSlug<T extends Work | Blog>(
-  slug: string,
-  table: 'works' | 'blogs',
-): Promise<T | null> {
-  const items = await getTableData<T>(table, 'id, name, description, image');
-  const match = items.find((item) => slugify(item.name) === slug);
-  return match ?? null;
+export const getBooks = unstable_cache(_getBooks, ['books'], {
+  revalidate: REVALIDATE_TIME,
+  tags: ['books'],
+});
+
+async function _getBookBySlug(slug: string): Promise<Book | null> {
+  const supabase = createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from('books')
+    .select(
+      `
+      isbn,
+      image,
+      content_nodes!inner (
+        slug,
+        title,
+        description,
+        created_at
+      )
+    `,
+    )
+    .eq('content_nodes.slug', slug)
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!data) return null;
+
+  return {
+    ...mapNode(data.content_nodes),
+    type: 'books' as const,
+    isbn: data.isbn,
+    image: data.image,
+  };
 }
+
+export const getBookBySlug = unstable_cache(_getBookBySlug, ['book-slug'], {
+  revalidate: REVALIDATE_TIME,
+  tags: ['books'],
+});
+
+/* ------------------------------------------------------------------ */
+/* Contributions                                                      */
+/* ------------------------------------------------------------------ */
+
+async function _getContributions(): Promise<Contribution[]> {
+  const supabase = createSupabaseServerClient();
+
+  const { data, error } = await supabase.from('contributions').select(`
+    image,
+    content_nodes!inner (
+      slug,
+      title,
+      description,
+      created_at
+    )
+  `);
+
+  if (error) throw error;
+
+  return data.map((row) => ({
+    ...mapNode(row.content_nodes),
+    type: 'contributions' as const,
+    image: row.image,
+  }));
+}
+
+export const getContributions = unstable_cache(_getContributions, ['contributions'], {
+  revalidate: REVALIDATE_TIME,
+  tags: ['contributions'],
+});
+
+async function _getContributionBySlug(slug: string): Promise<Contribution | null> {
+  const supabase = createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from('contributions')
+    .select(
+      `
+      image,
+      content_nodes!inner (
+        slug,
+        title,
+        description,
+        created_at
+      )
+    `,
+    )
+    .eq('content_nodes.slug', slug)
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!data) return null;
+
+  return {
+    ...mapNode(data.content_nodes),
+    type: 'contributions' as const,
+    image: data.image,
+  };
+}
+
+export const getContributionBySlug = unstable_cache(
+  _getContributionBySlug,
+  ['contribution-slug'],
+  {
+    revalidate: REVALIDATE_TIME,
+    tags: ['contributions'],
+  },
+);

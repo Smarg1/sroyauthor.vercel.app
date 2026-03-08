@@ -1,21 +1,33 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
+
+import { MDXRemote } from 'next-mdx-remote/rsc';
 import { notFound } from 'next/navigation';
+import remarkGfm from 'remark-gfm';
 
-import styles from '@/styles/blogs.module.css';
-import type { Blog } from '@/utils/fetchData';
-import { getSlug, getBlogs } from '@/utils/fetchData';
-import { slugify } from '@/utils/Slugify';
+import type { Blog } from '@/lib/types/app.types';
 
-export const revalidate = 600;
+import MDXImage from '@/components/Blog/MDXImage';
+import MDXTable from '@/components/Blog/MDXTable';
+import YouTube from '@/components/Blog/Youtube';
+import { getBlogBySlug, getBlogs } from '@/utils/fetchData';
+
+export const revalidate = 1800;
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateStaticParams() {
+  const blogs: Blog[] = await getBlogs();
+
+  return blogs.map((blog) => ({
+    slug: blog.slug,
+  }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const blog: Blog | null = await getSlug<Blog>(slug, 'blogs');
+  const blog = await getBlogBySlug(slug);
 
   if (!blog) {
     return {
@@ -24,85 +36,94 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const shortDescription = blog.description
-    ? blog.description.split('\n').slice(0, 3).join(' ').slice(0, 160)
-    : 'Read this insightful blog by Sangita Roy.';
+  const description = blog.description ?? 'Read this captivating blog by Sangita Roy.';
 
-  const blogSlug = slugify(blog.name);
+  const url = `https://sroyauthor.vercel.app/blogs/${blog.slug}`;
+  const image = blog.image ?? 'https://sroyauthor.vercel.app/sp.png';
 
   return {
-    title: `${blog.name} | Sangita Roy Blogs`,
-    description: shortDescription,
-    alternates: {
-      canonical: `https://sroyauthor.vercel.app/blogs/${blogSlug}`,
-    },
+    title: blog.title,
+    description,
+    alternates: { canonical: url },
     openGraph: {
       type: 'article',
-      url: `https://sroyauthor.vercel.app/blogs/${blogSlug}`,
-      title: `${blog.name} | Sangita Roy Blogs`,
-      description: shortDescription,
+      url,
+      title: `${blog.title} | Sangita Roy Blogs`,
+      description,
       siteName: 'Sangita Roy | Author',
-      images: blog.image
-        ? Array.isArray(blog.image)
-          ? blog.image.map((img) => ({ url: img, width: 1200, height: 630 }))
-          : [{ url: blog.image, width: 1200, height: 630 }]
-        : [{ url: 'https://sroyauthor.vercel.app/sp.png', width: 1200, height: 630 }],
+      images: [{ url: image, width: 1200, height: 630 }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${blog.name} | Sangita Roy Blogs`,
-      description: shortDescription,
-      images: blog.image
-        ? Array.isArray(blog.image)
-          ? blog.image
-          : [blog.image]
-        : ['https://sroyauthor.vercel.app/sp.png'],
+      title: `${blog.title} | Sangita Roy Blogs`,
+      description,
+      images: [{ url: image, width: 1200, height: 630 }],
       creator: '@sangitaroy',
       site: '@sangitaroy',
     },
   };
 }
 
-export async function generateStaticParams() {
-  const blogs: Blog[] = await getBlogs();
-  return blogs.map((blog) => ({
-    slug: slugify(blog.name),
-  }));
-}
-
 export default async function BlogPage({ params }: Props) {
   const { slug } = await params;
-  const blog: Blog | null = await getSlug<Blog>(slug, 'blogs');
+  const blog = await getBlogBySlug(slug);
 
   if (!blog) return notFound();
 
-  const images: string[] = Array.isArray(blog.image)
-    ? blog.image
-    : blog.image
-      ? [blog.image]
-      : [];
+  const { date, title } = blog;
+  const tags = blog.tags ?? [];
 
   return (
-    <div className={styles.bcontainer}>
-      <h1 className={styles.bhead}>{blog.name}</h1>
-      <p className={styles.bp}>{blog.description}</p>
-
-      {images.length > 0 && (
-        <div className={styles.blogImages}>
-          {images.map((src, i) => (
-            <Image
-              key={i}
-              src={src}
-              alt={`${blog.name}-${i}`}
-              className={styles.img}
-              width={400}
-              height={600}
-              crossOrigin="anonymous"
-              priority
-            />
-          ))}
+    <article className="bg-background text-on-background">
+      <section className="mx-auto max-w-3xl px-6 py-16">
+        <header className="mb-12 text-center">
+          <h1 className="text-on-surface font-serif text-5xl font-bold tracking-tight text-balance sm:text-6xl">
+            {title}
+          </h1>
+          <p className="text-on-surface-variant mt-3 text-sm">
+            By <span className="font-medium">S. Roy</span>
+          </p>
+          <time dateTime={date} className="text-on-surface-variant block text-sm">
+            {new Date(date).toLocaleDateString('en-IN', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
+          {tags.length > 0 ? (
+            <ul className="mt-4 flex flex-wrap justify-center gap-2">
+              {tags.map((tag) => (
+                <li
+                  key={tag}
+                  className="border-outline bg-secondary text-on-secondary rounded-md border px-3 py-1 text-xs"
+                >
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </header>
+        <div className="blog">
+          <MDXRemote
+            source={blog.content}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm],
+              },
+            }}
+            components={{
+              YouTube,
+              img: MDXImage,
+              table: MDXTable,
+            }}
+          />
         </div>
-      )}
-    </div>
+
+        {/* Article Footer */}
+        <footer className="border-outline text-on-surface-variant mt-16 border-t pt-6 text-center text-sm">
+          Written by <span className="font-medium">S. Roy</span>
+        </footer>
+      </section>
+    </article>
   );
 }

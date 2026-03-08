@@ -1,0 +1,250 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@theme {
+  /* === Base Pigments === */
+  --copper: oklch(65% 0.15 45);
+  --cream: oklch(96% 0.01 80);
+  --brown: oklch(25% 0.02 60);
+  --beige: oklch(92% 0.08 80);
+
+  /* Primary */
+  --color-primary: var(--copper);
+  --color-on-primary: var(--cream);
+  --color-primary-container: oklch(85% 0.1 50);
+  --color-on-primary-container: var(--brown);
+
+  /* Secondary */
+  --color-secondary: oklch(55% 0.06 70);
+  --color-on-secondary: var(--cream);
+  --color-secondary-container: oklch(88% 0.05 75);
+  --color-on-secondary-container: var(--brown);
+
+  /* Tertiary */
+  --color-tertiary: oklch(60% 0.08 30);
+  --color-on-tertiary: var(--cream);
+  --color-tertiary-container: oklch(90% 0.06 35);
+  --color-on-tertiary-container: var(--brown);
+
+  /* Error */
+  --color-error: oklch(55% 0.22 25);
+  --color-on-error: var(--cream);
+  --color-error-container: oklch(90% 0.1 25);
+  --color-on-error-container: var(--brown);
+
+  /* Background & Surface */
+  --color-background: var(--beige);
+  --color-on-background: var(--brown);
+
+  --color-surface: oklch(94% 0.04 80);
+  --color-on-surface: var(--brown);
+
+  /* Elevation */
+  --color-surface-variant: oklch(88% 0.06 80);
+  --color-on-surface-variant: oklch(30% 0.03 60);
+
+  --color-surface-container-low: oklch(96% 0.02 80);
+  --color-surface-container: oklch(94% 0.03 80);
+  --color-surface-container-high: oklch(90% 0.05 80);
+
+  /* Outline */
+  --color-outline: oklch(60% 0.03 70);
+  --color-outline-variant: oklch(80% 0.04 75);
+
+  /* Inverse */
+  --color-inverse-surface: var(--brown);
+  --color-inverse-on-surface: var(--cream);
+  --color-inverse-primary: oklch(80% 0.12 50);
+
+  /* Fonts */
+  --font-sans: 'Quicksand', sans-serif;
+  --font-serif: 'Radley', serif;
+
+  /* Variables */
+  --nav-height: 80px;
+  --mobile-nav-height: 64px;
+}
+
+@layer base {
+  html {
+    @apply /*pointer-coarse:cursor-auto*/ h-full scroll-p-(--mobile-nav-height) overscroll-none scroll-smooth antialiased max-md:[scrollbar-width:none] md:scroll-p-(--nav-height);
+    text-rendering: optimizeSpeed;
+    scrollbar-gutter: both-edges;
+  }
+  body {
+    @apply bg-background /*cursor-none*/ flex min-h-screen flex-col overflow-x-hidden text-center font-sans lg:text-left;
+  }
+  section {
+    @apply p-3;
+  }
+  ::-webkit-scrollbar {
+    @apply w-1.5 transition-all duration-300 ease-in-out;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-secondary outline;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-outline rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-outline-variant;
+  }
+  /* *, *::before, *::after {
+    cursor: inherit !important;
+  }*/
+}
+
+@layer components {
+  .button-primary,
+  .button-secondary {
+    @apply m-2 rounded-full px-4 py-2 font-sans outline transition-colors duration-300 ease-in-out;
+  }
+  .button-primary {
+    @apply bg-primary text-on-primary hover:bg-primary-container hover:text-on-primary-container;
+  }
+  .button-secondary {
+    @apply bg-secondary text-on-secondary hover:bg-secondary-container hover:text-on-secondary-container;
+  }
+  .is-disabled,
+  button:disabled {
+    @apply bg-surface-container-low text-on-surface border-outline cursor-not-allowed rounded-xl border p-4 opacity-70;
+  }
+}
+
+@layer utilities {
+  .text-muted {
+    @apply text-on-surface-variant/70;
+  }
+  .section--raised {
+    @apply bg-surface-container-high;
+  }
+  .section--subtle {
+    @apply bg-surface-container-low;
+  }
+  .state-error {
+    @apply bg-error-container text-on-error-container border-error border-l-4;
+  }
+  .outlined {
+    @apply border-outline border 2xl:border-2;
+  }
+  @keyframes pop-in {
+    0% {
+      transform: scale(0.6);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.08);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes bounce-in {
+    0% {
+      transform: translateY(24px);
+      opacity: 0;
+    }
+    60% {
+      transform: translateY(-6px);
+      opacity: 1;
+    }
+    80% {
+      transform: translateY(3px);
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  .animate-pop-in {
+    animation: pop-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-bounce-in {
+    animation: bounce-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .animation-delay-0 {
+    animation-delay: 0ms;
+  }
+  .animation-delay-75 {
+    animation-delay: 75ms;
+  }
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animation-delay-150 {
+    animation-delay: 150ms;
+  }
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animation-delay-450 {
+    animation-delay: 450ms;
+  }
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+  .animation-delay-600 {
+    animation-delay: 600ms;
+  }
+  .animation-delay-700 {
+    animation-delay: 700ms;
+  }
+  .animation-delay-800 {
+    animation-delay: 800ms;
+  }
+  .animation-delay-900 {
+    animation-delay: 900ms;
+  }
+  .animation-delay-1000 {
+    animation-delay: 1000ms;
+  }
+}
+
+@utility blog {
+  @apply prose prose-lg max-w-none text-justify leading-relaxed;
+
+  /* Headings */
+  @apply prose-headings:font-serif prose-headings:font-bold prose-headings:text-center prose-headings:tracking-tight prose-headings:text-on-surface prose-h1:mb-6 prose-h2:mt-12 prose-h2:mb-6 prose-h3:mt-10 prose-h3:mb-4;
+
+  /* Paragraph */
+  @apply prose-p:text-on-surface prose-p:leading-8 prose-p:my-4;
+
+  /* Strong / Emphasis */
+  @apply prose-strong:text-on-surface prose-strong:font-semibold prose-em:text-on-surface;
+
+  /* Links */
+  @apply prose-a:text-primary prose-a:no-underline hover:prose-a:underline after:content-['_↗'];
+
+  /* Inline Code */
+  @apply prose-code:text-on-surface prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none;
+
+  /* Code Blocks */
+  @apply prose-pre:bg-surface-variant prose-pre:text-on-surface prose-pre:rounded-xl prose-pre:p-6 prose-pre:overflow-x-scroll prose-pre:border prose-pre:border-outline prose-pre:shadow-sm prose-pre:[scrollbar-width:thin];
+
+  /* Blockquote */
+  @apply prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:rounded-r-lg prose-blockquote:italic prose-blockquote:text-on-surface-variant;
+
+  /* HR */
+  @apply prose-hr:border-outline prose-hr:my-12;
+
+  /* Lists */
+  @apply text-on-background prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-primary prose-li:my-1 prose-ul:pl-6 prose-ol:pl-6;
+
+  /* Images */
+  @apply prose-img:rounded-xl prose-img:shadow-md prose-img:mx-auto;
+
+  /* Task list checkboxes */
+  @apply [&_input[type='checkbox']]:accent-primary [&_input[type='checkbox']]:mr-2;
+
+  /* Small tag */
+  @apply [&_small]:text-on-surface-variant [&_small]:text-sm;
+}

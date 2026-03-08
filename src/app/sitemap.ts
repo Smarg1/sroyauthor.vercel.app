@@ -1,23 +1,27 @@
 import type { MetadataRoute } from 'next';
 
-import { getBlogs, getWorks } from '@/utils/fetchData';
-import type { Blog, Work } from '@/utils/fetchData';
-import { slugify } from '@/utils/Slugify';
+import type { Blog, Book, Contribution } from '@/lib/types/app.types';
 
-const BASE_URL = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` || '';
+import { getBlogs, getBooks, getContributions } from '@/utils/fetchData';
+
+const BASE_URL = `https://${process.env['VERCEL_PROJECT_PRODUCTION_URL'] ?? ''}`;
 
 function calculatePriority(path: string) {
   const depth = path.split('/').filter(Boolean).length;
   const priority = 1 - depth * 0.1;
-  return priority < 0.1 ? 0.1 : +priority.toFixed(1);
+  return priority < 0.1 ? 0.1 : Number(priority.toFixed(1));
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const nowISO = new Date().toISOString();
 
-  const [blogsData, worksData] = await Promise.all([getBlogs(), getWorks()]);
+  const [blogsData, booksData, contributionsData] = await Promise.all([
+    getBlogs(),
+    getBooks(),
+    getContributions(),
+  ]);
 
-  const staticPages: MetadataRoute.Sitemap = ['', 'about', 'blogs', 'works'].map(
+  const staticPages: MetadataRoute.Sitemap = ['', 'blogs', 'books', 'contributions'].map(
     (page) => ({
       url: `${BASE_URL}/${page}`,
       lastModified: nowISO,
@@ -27,18 +31,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   const blogs: MetadataRoute.Sitemap = blogsData.map((blog: Blog) => ({
-    url: `${BASE_URL}/blogs/${slugify(blog.name)}`,
+    url: `${BASE_URL}/blogs/${blog.slug}`,
     lastModified: nowISO,
-    priority: calculatePriority(`/blogs/${slugify(blog.name)}`),
+    priority: calculatePriority(`/blogs/${blog.slug}`),
     changefreq: 'weekly',
   }));
 
-  const works: MetadataRoute.Sitemap = worksData.map((work: Work) => ({
-    url: `${BASE_URL}/works/${slugify(work.name)}`,
+  const books: MetadataRoute.Sitemap = booksData.map((book: Book) => ({
+    url: `${BASE_URL}/books/${book.slug}`,
     lastModified: nowISO,
-    priority: calculatePriority(`/works/${slugify(work.name)}`),
+    priority: calculatePriority(`/books/${book.slug}`),
     changefreq: 'weekly',
   }));
 
-  return [...staticPages, ...blogs, ...works];
+  const contributions: MetadataRoute.Sitemap = contributionsData.map(
+    (contribution: Contribution) => ({
+      url: `${BASE_URL}/contributions/${contribution.slug}`,
+      lastModified: nowISO,
+      priority: calculatePriority(`/contributions/${contribution.slug}`),
+      changefreq: 'weekly',
+    }),
+  );
+
+  return [...staticPages, ...blogs, ...books, ...contributions];
 }

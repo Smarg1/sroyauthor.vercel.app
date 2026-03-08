@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-export default async function manifest(): Promise<MetadataRoute.Manifest> {
+export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'S.Roy Author',
     short_name: 'S.Roy',
@@ -8,6 +8,7 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
     display: 'standalone',
     background_color: '#d9c4b0',
     theme_color: '#000000',
+    prefer_related_applications: true,
     icons: [
       {
         src: '/images/favicon/web-app-manifest-192x192.png',

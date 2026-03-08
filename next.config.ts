@@ -3,8 +3,8 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   output: 'standalone',
-  devIndicators: false,
   productionBrowserSourceMaps: false,
+  transpilePackages: ['next-mdx-remote'],
 
   images: {
     formats: ['image/webp'],
@@ -14,13 +14,16 @@ const nextConfig: NextConfig = {
         hostname: 'vjxqncgvtyizwouycayb.supabase.co',
         pathname: '/storage/v1/object/public/frontend/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+        pathname: '/vi_webp/**',
+      },
     ],
   },
 
   compiler: {
-    removeConsole: {
-      exclude: ['error', 'warn'],
-    },
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['info'] } : false,
   },
 
   headers() {
@@ -28,18 +31,43 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: [
-          { key: 'X-XSS-Protection', value: '1; mode=block' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+
+          // Keep COOP (safe)
           { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
-          { key: 'Cross-Origin-Embedder-Policy', value: 'require-corp' },
+
+          // REMOVE COEP (breaks YouTube)
+          // { key: 'Cross-Origin-Embedder-Policy', value: 'require-corp' },
+
           {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
-              "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' blob: data: https://vjxqncgvtyizwouycayb.supabase.co",
+
+              // Scripts
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.youtube.com https://www.youtube-nocookie.com https://va.vercel-scripts.com",
+
+              // Styles
+              "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net",
+
+              // Images
+              "img-src 'self' data: https://vjxqncgvtyizwouycayb.supabase.co https://i.ytimg.com",
+
+              // Fonts
               "font-src 'self'",
-              "connect-src 'self' https://va.vercel-scripts.com",
+
+              // XHR / fetch
+              "connect-src 'self' https://va.vercel-scripts.com https://www.youtube.com https://www.youtube-nocookie.com",
+
+              // Iframes
+              'frame-src https://www.youtube.com https://www.youtube-nocookie.com',
+
+              // Lockdown
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",
