@@ -37,37 +37,20 @@ const nextConfig: NextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
-
-          // Keep COOP (safe)
           { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
 
-          // REMOVE COEP (breaks YouTube)
-          // { key: 'Cross-Origin-Embedder-Policy', value: 'require-corp' },
+          //{ key: 'Cross-Origin-Embedder-Policy', value: 'credentialless' },
 
           {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-
-              // Scripts
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.youtube.com https://www.youtube-nocookie.com https://va.vercel-scripts.com",
-
-              // Styles
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.youtube-nocookie.com https://va.vercel-scripts.com",
               "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net",
-
-              // Images
               "img-src 'self' data: https://vjxqncgvtyizwouycayb.supabase.co https://i.ytimg.com",
-
-              // Fonts
               "font-src 'self'",
-
-              // XHR / fetch
-              "connect-src 'self' https://va.vercel-scripts.com https://www.youtube.com https://www.youtube-nocookie.com",
-
-              // Iframes
-              'frame-src https://www.youtube.com https://www.youtube-nocookie.com',
-
-              // Lockdown
+              "connect-src 'self' https://va.vercel-scripts.com https://www.youtube-nocookie.com",
+              'frame-src https://www.youtube-nocookie.com',
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",

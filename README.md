@@ -15,34 +15,15 @@ The project integrates:
 - React 19
 - TypeScript 5
 - Supabase for data operations and authentication
-- Upstash Redis for caching and rate-limiting
 - Vercel analytics and performance tooling
-- PostCSS with Autoprefixer
+- Tailwind with PostCSS and Autoprefixer
+- Eslint 6 and prettier with best web code standards
 - Automated CI, CodeQL analysis, and security scanning via GitHub Actions
 - Dependabot automation for dependency governance
 
 Strict linting rules enforce zero warnings.  
 TypeScript operates in strict, no-emit validation mode.  
 Node 24.12.0 is the target runtime across CI and production.
-
-## Structure
-
-```
-
-/
-├─ src/
-│  ├─ app/              # Routing and server components
-│  ├─ components/       # UI systems and shared elements
-│  ├─ lib/              # Internal utilities and logic modules
-│  └─ styles/           # Styling and global definitions
-│
-├─ public/              # Static assets
-├─ .github/             # CI, CodeQL, security, Dependabot configs
-├─ package.json
-├─ tsconfig.json
-└─ next.config.js
-
-```
 
 ## Technology Notes
 
