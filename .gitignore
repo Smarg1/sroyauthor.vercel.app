@@ -33,3 +33,5 @@ Thumbs.db
 # typescript
 *.tsbuildinfo
 .vercel
+supabase
+.env*.local

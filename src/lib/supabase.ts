@@ -10,9 +10,9 @@ function requireEnv(name: string): string {
   return value;
 }
 
-const SUPABASE_URL = requireEnv('NEXT_PUBLIC_DB_SUPABASE_URL');
+const SUPABASE_URL = requireEnv('NEXT_PUBLIC_SUPABASE_URL');
 
-const SUPABASE_ANON_KEY = requireEnv('NEXT_PUBLIC_DB_SUPABASE_KEY');
+const SUPABASE_ANON_KEY = requireEnv('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY');
 
 export function createSupabaseServerClient() {
   return createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
