@@ -4,10 +4,8 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 const cspHeader = [
   "default-src 'self'",
-  `script-src 'self' ${
-    isDev ? "'unsafe-inline' 'unsafe-eval' " : ''
-  }https://cdn.jsdelivr.net https://va.vercel-scripts.com https://www.youtube-nocookie.com`,
-  `style-src 'self' ${isDev ? "'unsafe-inline' " : ''}https://cdn.jsdelivr.net`,
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://va.vercel-scripts.com https://www.youtube-nocookie.com",
+  "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net",
   "img-src 'self' data: blob: https://vjxqncgvtyizwouycayb.supabase.co https://i.ytimg.com",
   "font-src 'self'",
   "connect-src 'self' https://va.vercel-scripts.com https://www.youtube-nocookie.com",
