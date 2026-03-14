@@ -28,18 +28,19 @@ const YouTube: FC<Props> = ({ id }) => {
           visible ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <YouTubeEmbed
-          videoid={id}
-          params={[
-            'rel=0',
-            'iv_load_policy=3',
-            'playsinline=1',
-            'controls=1',
-            'fs=1',
-            'disablekb=1',
-          ].join('&')}
-          style="width:100%;height:100%;"
-        />
+        <div className="h-full w-full">
+          <YouTubeEmbed
+            videoid={id}
+            params={[
+              'rel=0',
+              'iv_load_policy=3',
+              'playsinline=1',
+              'controls=1',
+              'fs=1',
+              'disablekb=1',
+            ].join('&')}
+          />
+        </div>
       </div>
     </div>
   );

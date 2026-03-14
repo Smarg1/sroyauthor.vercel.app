@@ -69,7 +69,7 @@ export default [
 
     rules: {
       /* ---------------- CODE QUALITY ---------------- */
-      'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
+      'no-console': ['warn', { allow: ['warn', 'error', 'log', 'clear'] }],
       'no-debugger': 'error',
       'no-var': 'error',
       'prefer-const': 'error',
@@ -149,6 +149,36 @@ export default [
       'perfectionist/sort-exports': ['warn', { type: 'natural', order: 'asc' }],
       'perfectionist/sort-object-types': ['warn', { type: 'natural', order: 'asc' }],
       'perfectionist/sort-union-types': ['warn', { type: 'natural', order: 'asc' }],
+    },
+  },
+
+  // Middleware-specific config (no project-based type checking needed)
+  {
+    files: ['middleware.ts'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+      globals: {
+        process: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        console: 'readonly',
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+    },
+    rules: {
+      'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
+      'no-var': 'error',
+      'prefer-const': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
   },
 ];

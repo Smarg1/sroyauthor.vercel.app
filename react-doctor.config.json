@@ -1,0 +1,5 @@
+{
+  "ignore": {
+    "files": ["src/lib/**", "src/components/ignored-file.tsx"]
+  }
+}

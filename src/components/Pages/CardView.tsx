@@ -10,11 +10,16 @@ interface CardViewProps {
   title?: null | string;
 }
 
-export default function CardView({ content = [], title }: CardViewProps) {
+const EMPTY_CONTENT: ObjectView[] = [];
+
+export default function CardView({ content = EMPTY_CONTENT, title }: CardViewProps) {
   const isEmpty = content.length === 0;
+
   const raw: string = title?.trim() ?? content[0]?.type.trim() ?? 'Content';
+
   const headingText =
     raw.length > 0 ? raw.charAt(0).toUpperCase() + raw.slice(1) : 'Content';
+
   return (
     <section>
       <FadeIn>
