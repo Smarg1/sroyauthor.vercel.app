@@ -67,7 +67,7 @@ export default function ScrollWrapper({ works }: ScrollWrapperProps) {
               key={work.slug}
               className="group h-87.5 w-55 shrink-0 snap-start perspective-distant"
             >
-              <div className="relative h-full w-full transition-transform duration-500 transform-3d group-hover:rotate-y-180 motion-reduce:transition-none">
+              <div className="relative h-full w-full transition-transform duration-500 transform-3d motion-reduce:transition-none md:group-hover:rotate-y-180">
                 {/* Front */}
                 <div className="outlined absolute inset-0 overflow-hidden rounded-xl">
                   <Image
@@ -79,6 +79,12 @@ export default function ScrollWrapper({ works }: ScrollWrapperProps) {
                     className="h-full w-full rounded-xl object-cover"
                     priority={index <= 5}
                     loading={index <= 5 ? 'eager' : 'lazy'}
+                  />
+
+                  <Link
+                    href={`/${work.type}/${work.slug}`}
+                    className="absolute inset-0 md:hidden"
+                    aria-label={`View ${work.title}`}
                   />
                 </div>
 

@@ -16,7 +16,7 @@ export default function GlobalError({ error }: GlobalErrorProps) {
   const statusCode = error.statusCode ?? 500;
 
   return (
-    <html>
+    <html lang="en">
       <body className="m-0 my-auto h-full overflow-hidden">
         <div className="text-secondary flex flex-col items-center justify-center px-8 text-center font-sans">
           <h1 className="animate-bounce text-8xl font-bold">{statusCode}</h1>

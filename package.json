@@ -21,13 +21,13 @@
     "gsap": "^3.14.2",
     "next": "16.1.6",
     "next-mdx-remote": "^6.0.0",
+    "next-seo": "^7.2.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "remark-gfm": "^4.0.1",
     "simple-icons": "^16.11.0"
   },
   "devDependencies": {
-    "react-doctor": "^0.0.30",
     "@eslint/js": "^9.0.1",
     "@next/eslint-plugin-next": "^16.1.6",
     "@tailwindcss/postcss": "^4.2.1",
@@ -47,6 +47,7 @@
     "postcss": "^8.5.8",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "react-doctor": "^0.0.30",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3"
   },
