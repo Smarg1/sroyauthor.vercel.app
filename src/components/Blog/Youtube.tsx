@@ -1,8 +1,7 @@
 'use client';
 
-import type { FC } from 'react';
-
 import { YouTubeEmbed } from '@next/third-parties/google';
+import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 
 interface Props {

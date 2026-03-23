@@ -21,9 +21,7 @@ export default function GlobalError({ error }: GlobalErrorProps) {
         <div className="text-secondary flex flex-col items-center justify-center px-8 text-center font-sans">
           <h1 className="animate-bounce text-8xl font-bold">{statusCode}</h1>
 
-          <p className="my-6 text-xl">
-            {error.message !== '' || 'Oops… something went wrong.'}
-          </p>
+          <p className="my-6 text-xl">{error.message !== '' || 'Oops… something went wrong.'}</p>
 
           <Link
             href="/"

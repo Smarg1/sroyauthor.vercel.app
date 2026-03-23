@@ -1,7 +1,6 @@
 # sroyauthor.vercel.app
 
 ![CI](https://github.com/Smarg1/sroyauthor.vercel.app/actions/workflows/ci.yml/badge.svg)
-![CodeQL](https://github.com/Smarg1/sroyauthor.vercel.app/actions/workflows/codeql.yml/badge.svg)
 
 A modern web application built with Next.js 16, React 19, and TypeScript 5.  
 The architecture prioritizes reliability, strict validation, and continuous security enforcement.  

@@ -1,14 +1,10 @@
 import './globals.css';
 
-import type { Metadata, Viewport } from 'next';
-
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { Metadata, Viewport } from 'next';
 import { Quicksand, Radley } from 'next/font/google';
-
 import Footer from '@/components/Footer';
-import JsonLD from '@/components/Misc/jsonld';
-import WarningXSS from '@/components/Misc/xssProtection';
 import Navbar from '@/components/Navbar';
 import CustomCursor from '@/hooks/CustomCursor';
 import Pagetransition from '@/hooks/pageTransition';
@@ -117,15 +113,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Navbar />
         <Pagetransition>
-          <div className="mt-(--nav-height) flex-1 max-md:mt-(--mobile-nav-height)">
-            {children}
-          </div>
+          <div className="mt-(--nav-height) flex-1 max-md:mt-(--mobile-nav-height)">{children}</div>
           <Footer />
         </Pagetransition>
         <SpeedInsights />
-        <WarningXSS />
         <Analytics />
-        <JsonLD />
         <CustomCursor />
       </body>
     </html>

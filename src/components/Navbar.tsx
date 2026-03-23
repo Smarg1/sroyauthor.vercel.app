@@ -27,11 +27,7 @@ export default function Navbar() {
     <>
       <nav className="bg-secondary/90 fixed top-0 right-0 left-0 z-50 outline backdrop-blur">
         <div className="mx-auto flex h-(--mobile-nav-height) max-w-7xl items-center justify-between px-6 md:h-(--nav-height) md:px-12 lg:justify-center-safe">
-          <Link
-            href="/#"
-            className="flex items-center"
-            onClick={() => setMenuOpen(false)}
-          >
+          <Link href="/#" className="flex items-center" onClick={() => setMenuOpen(false)}>
             <Image
               src="/images/favicon/logo.svg"
               alt="Logo"
@@ -93,9 +89,7 @@ export default function Navbar() {
       <div
         id="mobile-panel"
         className={`bg-secondary text-on-secondary fixed top-16 right-0 left-0 z-50 origin-top transform transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] lg:hidden ${
-          menuOpen
-            ? 'scale-y-100 opacity-100'
-            : 'pointer-events-none scale-y-95 opacity-0'
+          menuOpen ? 'scale-y-100 opacity-100' : 'pointer-events-none scale-y-95 opacity-0'
         }`}
       >
         <nav className="flex flex-col gap-8 px-8 py-10 text-2xl">

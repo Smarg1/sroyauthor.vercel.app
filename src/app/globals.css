@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@plugin '@tailwindcss/typography';
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   /* === Base Pigments === */
@@ -57,8 +57,8 @@
   --color-inverse-primary: oklch(80% 0.12 50);
 
   /* Fonts */
-  --font-sans: 'Quicksand', sans-serif;
-  --font-serif: 'Radley', serif;
+  --font-sans: "Quicksand", sans-serif;
+  --font-serif: "Radley", serif;
 
   /* Variables */
   --nav-height: 80px;

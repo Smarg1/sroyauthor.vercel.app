@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
-
-import type { Book } from '@/lib/types/app.types';
-
 import CardView from '@/components/Pages/CardView';
+import type { Book } from '@/lib/types/app.types';
 import { getBooks } from '@/utils/fetchData';
 
 export const revalidate = 1800;

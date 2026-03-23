@@ -19,18 +19,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Bump version safely
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          git fetch --tags
-          git config user.name "ci-bot"
-          git config user.email "ci@users.noreply.github.com"
-
-          # bump patch version safely, rollback on failure
-          set -e
-          npm version patch -m "chore(release): %s"
-          git push --follow-tags || (echo "Version bump failed, reverting..." && git reset --hard HEAD^ && exit 1)
-
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
@@ -41,14 +29,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint code
-        run: npm run lint
-
-      - name: Type check
-        run: npm run typecheck
-
-      - name: Format check
-        run: npx prettier --check .
-
-      - name: Build Next.js
-        run: npm run build
+      - name: Run full CI checks (lint/typecheck/format/build)
+        run: npm run ci
