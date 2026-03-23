@@ -4,13 +4,8 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 const cspHeader = [
   "default-src 'self'",
-
-  `script-src  'unsafe-inline' 'self' ${
-    isDev ? "'unsafe-eval'" : ''
-  } https://cdn.jsdelivr.net https://va.vercel-scripts.com https://www.youtube-nocookie.com`,
-
-  `style-src 'self' ${isDev ? "'unsafe-inline'" : ''} https://cdn.jsdelivr.net`,
-
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://va.vercel-scripts.com https://www.youtube-nocookie.com",
+  "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net",
   "img-src 'self' data: blob: https://vjxqncgvtyizwouycayb.supabase.co https://i.ytimg.com",
   "font-src 'self'",
   "connect-src 'self' https://va.vercel-scripts.com https://www.youtube-nocookie.com",
@@ -23,12 +18,9 @@ const cspHeader = [
   "object-src 'none'",
   "manifest-src 'self'",
   'upgrade-insecure-requests',
-]
-  .filter(Boolean)
-  .join('; ');
+].join('; ');
 
 const nextConfig: NextConfig = {
-  reactCompiler: true,
   reactStrictMode: true,
   output: 'standalone',
   productionBrowserSourceMaps: false,
@@ -49,8 +41,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
   compiler: {
-    removeConsole: !isDev,
+    removeConsole:
+      process.env.NODE_ENV === 'production' ? { exclude: ['warn', 'error'] } : false,
   },
 
   async headers() {

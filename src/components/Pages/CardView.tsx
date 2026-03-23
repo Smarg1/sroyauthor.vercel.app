@@ -1,5 +1,6 @@
-import Heading from '@/components/Heading';
 import type { ObjectView } from '@/lib/types/app.types';
+
+import Heading from '@/components/Heading';
 
 import Card from '../Card';
 import { FadeIn } from '../Misc/FadeIn';
@@ -16,7 +17,8 @@ export default function CardView({ content = EMPTY_CONTENT, title }: CardViewPro
 
   const raw: string = title?.trim() ?? content[0]?.type.trim() ?? 'Content';
 
-  const headingText = raw.length > 0 ? raw.charAt(0).toUpperCase() + raw.slice(1) : 'Content';
+  const headingText =
+    raw.length > 0 ? raw.charAt(0).toUpperCase() + raw.slice(1) : 'Content';
 
   return (
     <section>
@@ -40,7 +42,9 @@ export default function CardView({ content = EMPTY_CONTENT, title }: CardViewPro
                 date={item.date}
                 title={item.title}
                 description={item.description ?? ''}
-                {...(item.type === 'books' && item.isbn.trim() !== '' ? { isbn: item.isbn } : {})}
+                {...(item.type === 'books' && item.isbn.trim() !== ''
+                  ? { isbn: item.isbn }
+                  : {})}
               />
             );
           })}

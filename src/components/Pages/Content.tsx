@@ -1,6 +1,8 @@
 import Image from 'next/image';
-import Heading from '@/components/Heading';
+
 import type { ObjectView } from '@/lib/types/app.types';
+
+import Heading from '@/components/Heading';
 
 import { FadeIn } from '../Misc/FadeIn';
 
@@ -21,7 +23,8 @@ export default function ContentView({ content }: Props) {
       })
     : null;
 
-  const hasISBN = isBook && typeof content.isbn === 'string' && content.isbn.trim() !== '';
+  const hasISBN =
+    isBook && typeof content.isbn === 'string' && content.isbn.trim() !== '';
 
   return (
     <article className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 lg:px-12">
@@ -31,44 +34,44 @@ export default function ContentView({ content }: Props) {
         </header>
       </FadeIn>
 
-      <section className="flex flex-col items-center justify-center gap-12 lg:flex-row lg:items-center lg:justify-center">
-        {/* IMAGE */}
+      <section className="flex flex-col gap-12 lg:flex-row lg:items-start">
         <FadeIn>
-          <div className="items-center hover:scale-105 transition-transform ease-in-out">
-            <Image
-              src={imageSrc}
-              alt={content.title}
-              width={1200}
-              height={1800}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 420px"
-              className="sm:max-w-md object-contain rounded-4xl"
-              priority
-            />
-          </div>
+          <figure className="flex w-full justify-center lg:w-1/2 lg:justify-start">
+            <div className="w-full max-w-xs transition-transform duration-300 hover:scale-105 sm:max-w-sm lg:max-w-md">
+              <Image
+                src={imageSrc}
+                alt={content.title}
+                width={800}
+                height={1200}
+                sizes="(max-width:1024px) 100vw, 40vw"
+                className="h-auto w-full rounded-4xl object-contain shadow-lg"
+                priority
+              />
+            </div>
+          </figure>
         </FadeIn>
         <FadeIn>
-          <div className="flex-1  space-y-6 text-base sm:text-lg leading-loose">
-            <div className="prose leading-loose sm:prose-lg max-w-full text-on-surface text-justify wrap-break-word">
+          <div className="text-on-surface w-full space-y-6 text-base leading-loose sm:text-lg lg:w-1/2">
+            <div className="prose sm:prose-lg text-on-surface max-w-none text-justify wrap-break-word max-sm:leading-relaxed">
               {content.description}
             </div>
 
-            {(hasISBN || publishedDate !== null) && (
+            {hasISBN || publishedDate !== null ? (
               <dl className="space-y-1 text-sm opacity-80">
-                {hasISBN && (
+                {hasISBN ? (
                   <div>
                     <dt className="inline font-semibold">ISBN: </dt>
                     <dd className="inline break-all">{content.isbn}</dd>
                   </div>
-                )}
-
-                {publishedDate !== null && (
+                ) : null}
+                {publishedDate !== null ? (
                   <div>
                     <dt className="inline font-semibold">Published: </dt>
                     <dd className="inline">{publishedDate}</dd>
                   </div>
-                )}
+                ) : null}
               </dl>
-            )}
+            ) : null}
           </div>
         </FadeIn>
       </section>

@@ -1,12 +1,15 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ArticleJsonLd } from 'next-seo';
+import { notFound } from 'next/navigation';
 import remarkGfm from 'remark-gfm';
+
+import type { Blog } from '@/lib/types/app.types';
+
 import MDXImage from '@/components/Blog/MDXImage';
 import MDXTable from '@/components/Blog/MDXTable';
 import YouTube from '@/components/Blog/Youtube';
-import type { Blog } from '@/lib/types/app.types';
 import { getBlogBySlug, getBlogs } from '@/utils/fetchData';
 
 export const revalidate = 1800;
@@ -66,9 +69,7 @@ export default async function BlogPage({ params }: Props) {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
 
-  if (!blog) {
-    return notFound();
-  }
+  if (!blog) return notFound();
 
   const { date, title } = blog;
   const tags = blog.tags ?? [];
