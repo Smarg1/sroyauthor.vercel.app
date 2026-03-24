@@ -30,11 +30,6 @@ export default function ContentView({ content }: Props) {
           <Heading text={content.title} />
         </header>
       </FadeIn>
-      <FadeIn>
-        <header className="mb-10">
-          <Heading text={content.title} />
-        </header>
-      </FadeIn>
 
       <section className="flex flex-col items-center justify-center gap-12 lg:flex-row lg:items-center lg:justify-center">
         {/* IMAGE */}
