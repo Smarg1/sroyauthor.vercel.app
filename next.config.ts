@@ -32,7 +32,6 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   output: 'standalone',
   productionBrowserSourceMaps: false,
-  devIndicators: false,
 
   images: {
     formats: ['image/webp'],
@@ -81,6 +80,18 @@ const nextConfig: NextConfig = {
           { key: 'X-Frame-Options', value: 'DENY' },
 
           { key: 'X-XSS-Protection', value: '0' },
+          /*{
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'credentialless',
+          },*/
+
+          { key: 'Cross-Origin-Resource-Policy', value: 'same-site' },
+
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
+
+          { key: 'X-Frame-Options', value: 'DENY' },
+
+          { key: 'X-XSS-Protection', value: '0' },
 
           {
             key: 'Content-Security-Policy',
@@ -93,6 +104,9 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+// TODO: strengthen CSP further by using hashes, and by removing 'unsafe-inline' and 'unsafe-eval' in development (if possible).
+// TODO: Use COEP without breaking youtube embeds.
 
 // TODO: strengthen CSP further by using hashes, and by removing 'unsafe-inline' and 'unsafe-eval' in development (if possible).
 // TODO: Use COEP without breaking youtube embeds.
