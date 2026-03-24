@@ -27,7 +27,6 @@
     "incremental": true,
     "skipLibCheck": true,
 
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
