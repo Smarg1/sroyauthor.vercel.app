@@ -4,8 +4,13 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 const cspHeader = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://va.vercel-scripts.com https://www.youtube-nocookie.com",
-  "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net",
+
+  `script-src  'unsafe-inline' 'self' ${
+    isDev ? "'unsafe-eval'" : ''
+  } https://cdn.jsdelivr.net https://va.vercel-scripts.com https://www.youtube-nocookie.com`,
+
+  `style-src 'self' ${isDev ? "'unsafe-inline'" : ''} https://cdn.jsdelivr.net`,
+
   "img-src 'self' data: blob: https://vjxqncgvtyizwouycayb.supabase.co https://i.ytimg.com",
   "font-src 'self'",
   "connect-src 'self' https://va.vercel-scripts.com https://www.youtube-nocookie.com",
@@ -18,13 +23,15 @@ const cspHeader = [
   "object-src 'none'",
   "manifest-src 'self'",
   'upgrade-insecure-requests',
-].join('; ');
+]
+  .filter(Boolean)
+  .join('; ');
 
 const nextConfig: NextConfig = {
+  reactCompiler: true,
   reactStrictMode: true,
   output: 'standalone',
   productionBrowserSourceMaps: false,
-  devIndicators: false,
 
   images: {
     formats: ['image/webp'],
@@ -41,10 +48,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-
   compiler: {
-    removeConsole:
-      process.env.NODE_ENV === 'production' ? { exclude: ['warn', 'error'] } : false,
+    removeConsole: !isDev,
   },
 
   async headers() {
@@ -75,6 +80,18 @@ const nextConfig: NextConfig = {
           { key: 'X-Frame-Options', value: 'DENY' },
 
           { key: 'X-XSS-Protection', value: '0' },
+          /*{
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'credentialless',
+          },*/
+
+          { key: 'Cross-Origin-Resource-Policy', value: 'same-site' },
+
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
+
+          { key: 'X-Frame-Options', value: 'DENY' },
+
+          { key: 'X-XSS-Protection', value: '0' },
 
           {
             key: 'Content-Security-Policy',
@@ -87,6 +104,9 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+// TODO: strengthen CSP further by using hashes, and by removing 'unsafe-inline' and 'unsafe-eval' in development (if possible).
+// TODO: Use COEP without breaking youtube embeds.
 
 // TODO: strengthen CSP further by using hashes, and by removing 'unsafe-inline' and 'unsafe-eval' in development (if possible).
 // TODO: Use COEP without breaking youtube embeds.
