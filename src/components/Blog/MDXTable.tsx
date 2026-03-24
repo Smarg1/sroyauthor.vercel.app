@@ -1,5 +1,4 @@
-// components/Blog/MDXTable.tsx
-import React from 'react';
+import type React from 'react';
 
 type MDXTableProps = React.HTMLAttributes<HTMLTableElement>;
 

@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
     },
     sitemap: 'https://sroyauthor.vercel.app/sitemap.xml',
-    host: process.env['VERCEL_PROJECT_PRODUCTION_URL'],
+    host: process.env.VERCEL_PROJECT_PRODUCTION_URL,
   };
 }

@@ -16,10 +16,14 @@ export default function ScrollWrapper({ works }: ScrollWrapperProps) {
 
   const scroll = (dir: -1 | 1) => {
     const el = scrollRef.current;
-    if (!el) return;
+    if (!el) {
+      return;
+    }
 
     const children = Array.from(el.children) as HTMLElement[];
-    if (children.length === 0) return;
+    if (children.length === 0) {
+      return;
+    }
 
     const scrollLeft = el.scrollLeft;
 
@@ -32,7 +36,9 @@ export default function ScrollWrapper({ works }: ScrollWrapperProps) {
     const nextIndex = Math.max(0, Math.min(children.length - 1, baseIndex + dir));
 
     const target = children[nextIndex];
-    if (!target) return;
+    if (!target) {
+      return;
+    }
 
     el.scrollTo({
       left: target.offsetLeft,
@@ -45,6 +51,7 @@ export default function ScrollWrapper({ works }: ScrollWrapperProps) {
       {/* Left Arrow */}
       {works.length > 0 ? (
         <button
+          type="button"
           onClick={() => {
             scroll(-1);
           }}
@@ -94,9 +101,7 @@ export default function ScrollWrapper({ works }: ScrollWrapperProps) {
                     href={`/${work.type}/${work.slug}`}
                     className="flex h-full flex-col no-underline"
                   >
-                    <h3 className="mb-2 text-center text-lg font-semibold">
-                      {work.title}
-                    </h3>
+                    <h3 className="mb-2 text-center text-lg font-semibold">{work.title}</h3>
 
                     <p className="line-clamp-10 text-justify text-sm leading-relaxed opacity-80">
                       {work.description}
@@ -112,6 +117,7 @@ export default function ScrollWrapper({ works }: ScrollWrapperProps) {
       {/* Right Arrow */}
       {works.length > 0 ? (
         <button
+          type="button"
           onClick={() => {
             scroll(1);
           }}

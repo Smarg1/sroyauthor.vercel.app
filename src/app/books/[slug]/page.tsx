@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
-
-import type { Book } from '@/lib/types/app.types';
-
 import ContentView from '@/components/Pages/Content';
+import type { Book } from '@/lib/types/app.types';
 import { getBookBySlug, getBooks } from '@/utils/fetchData';
 
 export const revalidate = 1800;
@@ -28,8 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const shortDescription = book.description ?? 'Explore this creative book by S.Roy.';
 
   const url = `https://sroyauthor.vercel.app/books/${book.slug}`;
-  const imageUrl =
-    book.image !== '' ? book.image : 'https://sroyauthor.vercel.app/sp.png';
+  const imageUrl = book.image !== '' ? book.image : 'https://sroyauthor.vercel.app/sp.png';
   return {
     title: `${book.title} | S.Roy Books`,
     description: shortDescription,
@@ -72,7 +69,9 @@ export default async function Page({ params }: Props) {
 
   const book: Book | null = await getBookBySlug(slug);
 
-  if (!book) return notFound();
+  if (!book) {
+    return notFound();
+  }
 
   return <ContentView content={book} />;
 }

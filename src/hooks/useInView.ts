@@ -9,7 +9,9 @@ export function useInView<T extends HTMLElement>(options?: IntersectionObserverI
   const handleIntersect = useCallback(
     (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
       const entry = entries[0];
-      if (!entry) return;
+      if (!entry) {
+        return;
+      }
 
       if (entry.isIntersecting) {
         setIsVisible(true);
@@ -21,7 +23,9 @@ export function useInView<T extends HTMLElement>(options?: IntersectionObserverI
 
   useEffect(() => {
     const element = ref.current;
-    if (!element) return;
+    if (!element) {
+      return;
+    }
 
     const observer = new IntersectionObserver(handleIntersect, {
       root: null,

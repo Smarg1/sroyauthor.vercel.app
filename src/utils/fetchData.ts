@@ -1,17 +1,9 @@
 'use server';
 
 import { unstable_cache } from 'next/cache';
-
-import type {
-  Blog,
-  Book,
-  Contribution,
-  MetadataKey,
-  MetadataValue,
-} from '@/lib/types/app.types';
-import type { Database } from '@/lib/types/db.types';
-
 import { createSupabaseServerClient } from '@/lib/supabase';
+import type { Blog, Book, Contribution, MetadataKey, MetadataValue } from '@/lib/types/app.types';
+import type { Database } from '@/lib/types/db.types';
 
 /* ------------------------------------------------------------------ */
 /* Schema aliases                                                     */
@@ -20,10 +12,7 @@ import { createSupabaseServerClient } from '@/lib/supabase';
 type Api = Database['api'];
 type ContentNodeRow = Api['Tables']['content_nodes']['Row'];
 
-type ContentNodePreview = Pick<
-  ContentNodeRow,
-  'created_at' | 'description' | 'slug' | 'title'
->;
+type ContentNodePreview = Pick<ContentNodeRow, 'created_at' | 'description' | 'slug' | 'title'>;
 
 /* ------------------------------------------------------------------ */
 /* Core mapper                                                        */
@@ -54,7 +43,9 @@ async function _getMetadataValue(key: MetadataKey): Promise<MetadataValue | null
     .limit(1)
     .maybeSingle();
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return data?.value ?? null;
 }
@@ -83,7 +74,9 @@ async function _getBlogs(): Promise<Blog[]> {
     )
   `);
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return data.map((row) => ({
     ...mapNode(row.content_nodes),
@@ -121,8 +114,12 @@ async function _getBlogBySlug(slug: string): Promise<Blog | null> {
     .limit(1)
     .maybeSingle();
 
-  if (error) throw error;
-  if (!data) return null;
+  if (error) {
+    throw error;
+  }
+  if (!data) {
+    return null;
+  }
 
   return {
     ...mapNode(data.content_nodes),
@@ -156,7 +153,9 @@ async function _getBooks(): Promise<Book[]> {
     )
   `);
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return data.map((row) => ({
     ...mapNode(row.content_nodes),
@@ -192,8 +191,12 @@ async function _getBookBySlug(slug: string): Promise<Book | null> {
     .limit(1)
     .maybeSingle();
 
-  if (error) throw error;
-  if (!data) return null;
+  if (error) {
+    throw error;
+  }
+  if (!data) {
+    return null;
+  }
 
   return {
     ...mapNode(data.content_nodes),
@@ -225,7 +228,9 @@ async function _getContributions(): Promise<Contribution[]> {
     )
   `);
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return data.map((row) => ({
     ...mapNode(row.content_nodes),
@@ -259,8 +264,12 @@ async function _getContributionBySlug(slug: string): Promise<Contribution | null
     .limit(1)
     .maybeSingle();
 
-  if (error) throw error;
-  if (!data) return null;
+  if (error) {
+    throw error;
+  }
+  if (!data) {
+    return null;
+  }
 
   return {
     ...mapNode(data.content_nodes),
@@ -269,11 +278,7 @@ async function _getContributionBySlug(slug: string): Promise<Contribution | null
   };
 }
 
-export const getContributionBySlug = unstable_cache(
-  _getContributionBySlug,
-  ['contribution-slug'],
-  {
-    revalidate: REVALIDATE_TIME,
-    tags: ['contributions'],
-  },
-);
+export const getContributionBySlug = unstable_cache(_getContributionBySlug, ['contribution-slug'], {
+  revalidate: REVALIDATE_TIME,
+  tags: ['contributions'],
+});

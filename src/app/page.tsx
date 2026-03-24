@@ -1,6 +1,6 @@
-import { compileMDX } from 'next-mdx-remote/rsc';
 import Image from 'next/image';
 import Link from 'next/link';
+import { compileMDX } from 'next-mdx-remote/rsc';
 
 import Heading from '@/components/Heading';
 import { FadeIn } from '@/components/Misc/FadeIn';

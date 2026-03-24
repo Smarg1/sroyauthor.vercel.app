@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
-
-import type { Contribution } from '@/lib/types/app.types';
-
 import ContentView from '@/components/Pages/Content';
+import type { Contribution } from '@/lib/types/app.types';
 import { getContributionBySlug, getContributions } from '@/utils/fetchData';
 
 export const revalidate = 1800;
@@ -25,12 +23,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const shortDescription =
-    contrib.description ?? 'Explore this creative contribution by S.Roy.';
+  const shortDescription = contrib.description ?? 'Explore this creative contribution by S.Roy.';
 
   const url = `https://sroyauthor.vercel.app/contributions/${contrib.slug}`;
-  const imageUrl =
-    contrib.image !== '' ? contrib.image : 'https://sroyauthor.vercel.app/sp.png';
+  const imageUrl = contrib.image !== '' ? contrib.image : 'https://sroyauthor.vercel.app/sp.png';
 
   return {
     title: `${contrib.title} | S.Roy Contributions`,
@@ -74,7 +70,9 @@ export default async function Page({ params }: Props) {
 
   const contrib: Contribution | null = await getContributionBySlug(slug);
 
-  if (!contrib) return notFound();
+  if (!contrib) {
+    return notFound();
+  }
 
   return <ContentView content={contrib} />;
 }

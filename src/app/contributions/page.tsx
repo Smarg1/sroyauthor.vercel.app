@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
-
-import type { Contribution } from '@/lib/types/app.types';
-
 import CardView from '@/components/Pages/CardView';
+import type { Contribution } from '@/lib/types/app.types';
 import { getContributions } from '@/utils/fetchData';
 
 export const revalidate = 1800;
