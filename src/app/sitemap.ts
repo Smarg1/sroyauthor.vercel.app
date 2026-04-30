@@ -1,7 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-import type { Blog, Book, Contribution } from '@/lib/types/app.types';
-
+import type { Blog, Book, Contribution, PaginationResult } from '@/lib/types/app.types';
 import { getBlogs, getBooks, getContributions } from '@/utils/fetchData';
 
 const BASE_URL = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
@@ -15,11 +14,11 @@ function calculatePriority(path: string) {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const nowISO = new Date().toISOString();
 
-  const [blogsData, booksData, contributionsData] = await Promise.all([
-    getBlogs(),
-    getBooks(),
-    getContributions(),
-  ]);
+  const [blogsPage, booksPage, contributionsPage]: [
+    PaginationResult<Blog>,
+    PaginationResult<Book>,
+    PaginationResult<Contribution>,
+  ] = await Promise.all([getBlogs(1), getBooks(1), getContributions(1)]);
 
   const staticPages: MetadataRoute.Sitemap = ['', 'blogs', 'books', 'contributions'].map(
     (page) => ({
@@ -30,21 +29,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
   );
 
-  const blogs: MetadataRoute.Sitemap = blogsData.map((blog: Blog) => ({
+  const blogs: MetadataRoute.Sitemap = blogsPage.rows.map((blog: Blog) => ({
     url: `${BASE_URL}/blogs/${blog.slug}`,
     lastModified: nowISO,
     priority: calculatePriority(`/blogs/${blog.slug}`),
     changefreq: 'weekly',
   }));
 
-  const books: MetadataRoute.Sitemap = booksData.map((book: Book) => ({
+  const books: MetadataRoute.Sitemap = booksPage.rows.map((book: Book) => ({
     url: `${BASE_URL}/books/${book.slug}`,
     lastModified: nowISO,
     priority: calculatePriority(`/books/${book.slug}`),
     changefreq: 'weekly',
   }));
 
-  const contributions: MetadataRoute.Sitemap = contributionsData.map(
+  const contributions: MetadataRoute.Sitemap = contributionsPage.rows.map(
     (contribution: Contribution) => ({
       url: `${BASE_URL}/contributions/${contribution.slug}`,
       lastModified: nowISO,

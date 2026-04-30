@@ -1,6 +1,6 @@
 import type { NextConfig } from 'next';
 
-const isDev = process.env.NODE_ENV !== 'production';
+const isDev = true; // process.env.NODE_ENV !== 'production';
 
 const cspHeader = [
   "default-src 'self'",
@@ -10,7 +10,6 @@ const cspHeader = [
   } https://cdn.jsdelivr.net https://va.vercel-scripts.com https://www.youtube-nocookie.com`,
 
   `style-src 'self' ${isDev ? "'unsafe-inline'" : ''} https://cdn.jsdelivr.net`,
-
   "img-src 'self' data: blob: https://vjxqncgvtyizwouycayb.supabase.co https://i.ytimg.com",
   "font-src 'self'",
   "connect-src 'self' https://va.vercel-scripts.com https://www.youtube-nocookie.com",

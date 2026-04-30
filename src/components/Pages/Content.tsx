@@ -12,14 +12,16 @@ export default function ContentView({ content }: Props) {
   const imageSrc = (content.image ?? '/not-found.svg').trimEnd();
   const isBook = 'isbn' in content;
 
-  const hasDate = content.date !== '';
-  const publishedDate = hasDate
-    ? new Date(content.date).toLocaleDateString('en-IN', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    : null;
+  const dateVal = content.date;
+  const hasDate = typeof dateVal === 'string' && dateVal.trim() !== '';
+  let publishedDate: string | null = null;
+  if (hasDate) {
+    publishedDate = new Date(dateVal).toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  }
 
   const hasISBN = isBook && typeof content.isbn === 'string' && content.isbn.trim() !== '';
 

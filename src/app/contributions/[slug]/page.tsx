@@ -2,19 +2,19 @@ import type { Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 import ContentView from '@/components/Pages/Content';
-import type { Contribution } from '@/lib/types/app.types';
+import type { Contribution, ObjectView } from '@/lib/types/app.types';
 import { getContributionBySlug, getContributions } from '@/utils/fetchData';
 
-export const revalidate = 1800;
+export const revalidate = 21600;
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
 
-  const contrib: Contribution | null = await getContributionBySlug(slug);
+  const contrib = await getContributionBySlug(slug);
 
   if (!contrib) {
     return {
@@ -26,7 +26,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const shortDescription = contrib.description ?? 'Explore this creative contribution by S.Roy.';
 
   const url = `https://sroyauthor.vercel.app/contributions/${contrib.slug}`;
-  const imageUrl = contrib.image !== '' ? contrib.image : 'https://sroyauthor.vercel.app/sp.png';
+  const imageUrl =
+    (contrib.coverUrl ?? '') !== ''
+      ? (contrib.coverUrl ?? '')
+      : 'https://sroyauthor.vercel.app/sp.png';
 
   return {
     title: `${contrib.title} | S.Roy Contributions`,
@@ -58,7 +61,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const contributions: Contribution[] = await getContributions();
+  const contributionsPage = await getContributions(1);
+  const contributions: Contribution[] = contributionsPage.rows;
 
   return contributions.map((contrib) => ({
     slug: contrib.slug,
@@ -66,7 +70,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: Props) {
-  const { slug } = await params;
+  const { slug } = params;
 
   const contrib: Contribution | null = await getContributionBySlug(slug);
 
@@ -74,5 +78,14 @@ export default async function Page({ params }: Props) {
     return notFound();
   }
 
-  return <ContentView content={contrib} />;
+  const view: ObjectView = {
+    slug: contrib.slug,
+    title: contrib.title,
+    description: contrib.description,
+    image: contrib.coverUrl ?? '/not-found.svg',
+    date: contrib.createdAt,
+    type: 'contribution',
+  };
+
+  return <ContentView content={view} />;
 }

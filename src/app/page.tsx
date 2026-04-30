@@ -5,14 +5,21 @@ import { compileMDX } from 'next-mdx-remote/rsc';
 import Heading from '@/components/Heading';
 import { FadeIn } from '@/components/Misc/FadeIn';
 import ScrollWrapper from '@/components/Scroller';
+import type { Book, Contribution, MetadataValue, PageResult } from '@/lib/types/app.types';
 import { getBooks, getContributions, getMetadataValue } from '@/utils/fetchData';
 
 export const revalidate = 3600;
+const PAGE_SIZE = 20;
 
 export default async function HomePage() {
-  const [books, contributions, bio, pfp] = await Promise.all([
-    getBooks(),
-    getContributions(),
+  const [booksPage, contributionsPage, bio, pfp]: [
+    PageResult<Book>,
+    PageResult<Contribution>,
+    MetadataValue,
+    MetadataValue,
+  ] = await Promise.all([
+    getBooks(1, PAGE_SIZE),
+    getContributions(1, PAGE_SIZE),
     getMetadataValue('bio'),
     getMetadataValue('author_img'),
   ]);
@@ -21,12 +28,21 @@ export default async function HomePage() {
     bio !== null
       ? await compileMDX({
           source: bio,
-          options: { parseFrontmatter: true },
-          components: { Heading, Link },
         })
       : null;
 
-  const works = [...books, ...contributions];
+  const books = booksPage.rows;
+  const contributions = contributionsPage.rows;
+
+  const works = [...books, ...contributions].sort((a, b) => {
+    const dateDiff = new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+
+    if (dateDiff !== 0) {
+      return dateDiff;
+    }
+
+    return a.title.localeCompare(b.title);
+  });
 
   const authorImg = pfp ?? '/not-found.svg';
 

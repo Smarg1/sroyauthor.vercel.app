@@ -109,6 +109,27 @@
   button:disabled {
     @apply bg-surface-container-low text-on-surface border-outline cursor-not-allowed rounded-xl border p-4 opacity-70;
   }
+
+  .search-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+  }
+
+  .search-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .search-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: border-box;
+    transition:
+      background-color 160ms ease-in-out,
+      width 160ms;
+  }
+  .search-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+  }
 }
 
 @layer utilities {

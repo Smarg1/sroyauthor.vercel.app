@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import CardView from '@/components/Pages/CardView';
-import type { Book } from '@/lib/types/app.types';
+import ClientInfinite from '@/components/Pages/ClientInfinite';
+import type { Book, ObjectView, PaginationResult } from '@/lib/types/app.types';
 import { getBooks } from '@/utils/fetchData';
 
-export const revalidate = 1800;
+export const revalidate = 21600;
 
 export const metadata: Metadata = {
   title: 'Books',
@@ -37,8 +37,37 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BooksPage() {
-  const books: Book[] = await getBooks();
+export default async function BooksPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ page?: string }>;
+}) {
+  const params = await searchParams;
+  const page = Number(params?.page ?? '1') || 1;
 
-  return <CardView content={books} />;
+  const booksPage: PaginationResult<Book> = await getBooks(page);
+
+  const content: ObjectView[] = booksPage.rows.map((b) => ({
+    slug: b.slug,
+    title: b.title,
+    description: b.description,
+    image: b.coverUrl ?? '/not-found.svg',
+    date: b.createdAt,
+    type: 'book' as const,
+    isbn: b.isbn ?? undefined,
+  }));
+
+  const pagination = {
+    rows: content,
+    page: booksPage.page,
+    pageSize: booksPage.pageSize,
+    total: booksPage.total,
+    totalPages: booksPage.totalPages,
+    hasNext: booksPage.hasNext,
+    hasPrev: booksPage.hasPrev,
+  };
+
+  return (
+    <ClientInfinite initialContent={content} initialPagination={pagination} endpoint="/api/books" />
+  );
 }

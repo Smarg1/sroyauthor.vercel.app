@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import CardView from '@/components/Pages/CardView';
-import type { Contribution } from '@/lib/types/app.types';
+import ClientInfinite from '@/components/Pages/ClientInfinite';
+import type { Contribution, ObjectView, PaginationResult } from '@/lib/types/app.types';
 import { getContributions } from '@/utils/fetchData';
 
-export const revalidate = 1800;
+export const revalidate = 21600;
 
 export const metadata: Metadata = {
   title: 'Contributions',
@@ -37,8 +37,33 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function ContributionsPage() {
-  const contributions: Contribution[] = await getContributions();
+export default async function ContributionsPage({
+  searchParams,
+}: {
+  searchParams?: { page?: string };
+}) {
+  const page = Number(searchParams?.page ?? '1') || 1;
 
-  return <CardView content={contributions} />;
+  const contributionsPage: PaginationResult<Contribution> = await getContributions(page);
+
+  const content: ObjectView[] = contributionsPage.rows.map((c) => ({
+    slug: c.slug,
+    title: c.title,
+    description: c.description,
+    image: c.coverUrl ?? '/not-found.svg',
+    date: c.createdAt,
+    type: 'contribution' as const,
+  }));
+
+  const pagination = {
+    rows: content,
+    page: contributionsPage.page,
+    pageSize: contributionsPage.pageSize,
+    total: contributionsPage.total,
+    totalPages: contributionsPage.totalPages,
+    hasNext: contributionsPage.hasNext,
+    hasPrev: contributionsPage.hasPrev,
+  };
+
+  return <ClientInfinite initialContent={content} initialPagination={pagination} endpoint="/api/contributions" />;
 }

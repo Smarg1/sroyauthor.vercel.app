@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.8/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.13/schema.json",
 
   "vcs": {
     "enabled": true,
@@ -9,15 +9,7 @@
 
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!node_modules",
-      "!.next",
-      "!dist",
-      "!build",
-      "!coverage",
-      "!src/lib/types/db.types.ts"
-    ]
+    "includes": ["**", "!node_modules", "!.next", "!dist", "!build", "!coverage"]
   },
 
   "formatter": {

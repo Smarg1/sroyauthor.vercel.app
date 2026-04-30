@@ -2,19 +2,19 @@ import type { Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 import ContentView from '@/components/Pages/Content';
-import type { Book } from '@/lib/types/app.types';
+import type { Book, ObjectView } from '@/lib/types/app.types';
 import { getBookBySlug, getBooks } from '@/utils/fetchData';
 
-export const revalidate = 1800;
+export const revalidate = 21600;
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
 
-  const book: Book | null = await getBookBySlug(slug);
+  const book = await getBookBySlug(slug);
 
   if (!book) {
     return {
@@ -26,7 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const shortDescription = book.description ?? 'Explore this creative book by S.Roy.';
 
   const url = `https://sroyauthor.vercel.app/books/${book.slug}`;
-  const imageUrl = book.image !== '' ? book.image : 'https://sroyauthor.vercel.app/sp.png';
+  const imageUrl =
+    (book.coverUrl ?? '') !== '' ? (book.coverUrl ?? '') : 'https://sroyauthor.vercel.app/sp.png';
   return {
     title: `${book.title} | S.Roy Books`,
     description: shortDescription,
@@ -57,7 +58,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const books: Book[] = await getBooks();
+  const booksPage = await getBooks(1);
+  const books: Book[] = booksPage.rows;
 
   return books.map((book) => ({
     slug: book.slug,
@@ -67,11 +69,21 @@ export async function generateStaticParams() {
 export default async function Page({ params }: Props) {
   const { slug } = await params;
 
-  const book: Book | null = await getBookBySlug(slug);
+  const book = await getBookBySlug(slug);
 
   if (!book) {
     return notFound();
   }
 
-  return <ContentView content={book} />;
+  const view: ObjectView = {
+    slug: book.slug,
+    title: book.title,
+    description: book.description,
+    image: book.coverUrl ?? '/not-found.svg',
+    date: book.createdAt,
+    type: 'book',
+    isbn: book.isbn ?? undefined,
+  };
+
+  return <ContentView content={view} />;
 }

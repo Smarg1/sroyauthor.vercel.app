@@ -1,82 +1,106 @@
-import type { Database } from './db.types';
+/* -------------------------------------------------------------------------- */
+/* CORE                                                                       */
+/* -------------------------------------------------------------------------- */
 
-/* ----------------------------- */
-/* Schema Alias                  */
-/* ----------------------------- */
+export type ObjectType = 'blog' | 'book' | 'contribution';
 
-type Api = Database['api'];
+export type Cursor = string | number | null;
 
-/* ----------------------------- */
-/* Core Enum                     */
-/* ----------------------------- */
-
-export type ObjectTypeEnum = Api['Enums']['work'];
-
-/* ----------------------------- */
-/* Base Content Node             */
-/* ----------------------------- */
-
-type ContentNodeRow = Api['Tables']['content_nodes']['Row'];
-
-export interface ContentNodeBase {
-  date: ContentNodeRow['created_at'];
-  description?: ContentNodeRow['description'];
-  slug: ContentNodeRow['slug'];
-  title: ContentNodeRow['title'];
-}
-
-/* ----------------------------- */
-/* Blog                          */
-/* ----------------------------- */
-
-type BlogRow = Api['Tables']['blogs']['Row'];
-
-export type Blog = ContentNodeBase & {
-  content: BlogRow['content'];
-  image: BlogRow['image']; // string | null
-  tags: BlogRow['tags'];
-  type: 'blogs';
+export type FeedResult<T> = {
+  items: T[];
+  nextCursor: Cursor;
+  hasNext: boolean;
 };
 
-/* ----------------------------- */
-/* Book                          */
-/* ----------------------------- */
+/* -------------  */
+/* BASE CONTENT   */
+/* -------------- */
 
-type BookRow = Api['Tables']['books']['Row'];
-
-export type Book = ContentNodeBase & {
-  image: BookRow['image']; // string
-  isbn: BookRow['isbn'];
-  type: 'books';
+export type BaseContent = {
+  slug: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  coverUrl: string;
 };
 
-/* ----------------------------- */
-/* Contribution                  */
-/* ----------------------------- */
+/* -------------  */
+/* DOMAIN TYPES   */
+/* -------------- */
 
-type ContributionRow = Api['Tables']['contributions']['Row'];
-
-export type Contribution = ContentNodeBase & {
-  image: ContributionRow['image']; // string
-  type: 'contributions';
+export type Blog = BaseContent & {
+  type: 'blog';
+  content: string;
+  tags: string[];
 };
 
-/* ----------------------------- */
-/* Union View                    */
-/* ----------------------------- */
+export type Book = BaseContent & {
+  type: 'book';
+  isbn: string;
+};
 
-export type ObjectView = Blog | Book | Contribution;
+export type Contribution = BaseContent & {
+  type: 'contribution';
+};
 
-/* ----------------------------- */
-/* Metadata                      */
-/* ----------------------------- */
+export type ContentItem = Blog | Book | Contribution;
 
-type MetadataRow = Api['Tables']['metadata']['Row'];
+/* --------- */
+/* SEARCH    */
+/* --------- */
 
-export type MetadataKey = MetadataRow['key'];
-export type MetadataValue = MetadataRow['value'];
+export type SearchRow = {
+  id?: number;
+  slug: string;
+  title: string;
+  description: string;
+  type: ObjectType;
+  cover_url?: string;
+  order?: number;
+};
 
-export interface MetadataRecord {
+export type SearchResult = {
+  id?: number;
+  slug: string;
+  title: string;
+  description: string;
+  type: ObjectType;
+  cover: string;
+};
+
+export type PageResult<T> = {
+  rows: T[];
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+};
+
+export type PaginationResult<T> = PageResult<T>;
+
+/* --------- */
+/* METADATA  */
+/* --------- */
+
+export type MetadataKey = string;
+
+export type MetadataValue = string | null;
+
+export type MetadataRecord = {
   key: MetadataKey;
   value: MetadataValue;
-}
+};
+
+export type ObjectTypeEnum = ObjectType;
+
+export type ObjectView = {
+  slug: string;
+  title: string;
+  description?: string | null;
+  image?: string | null;
+  date?: string | null;
+  type: ObjectTypeEnum;
+  isbn?: string | undefined;
+};

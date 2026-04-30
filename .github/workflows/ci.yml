@@ -27,7 +27,10 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Run full CI checks (lint/typecheck/format/build)
+      - name: Run full CI checks (lint/typecheck/format)
         run: npm run check
+
+      - name: Run build (Last Check)
+        run: npm run build

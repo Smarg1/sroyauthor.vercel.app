@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import CardView from '@/components/Pages/CardView';
-import type { Blog } from '@/lib/types/app.types';
+import ClientInfinite from '@/components/Pages/ClientInfinite';
+import type { Blog, PaginationResult } from '@/lib/types/app.types';
 import { getBlogs } from '@/utils/fetchData';
 
-export const revalidate = 1800;
+export const revalidate = 21600;
 
 export const metadata: Metadata = {
   title: 'Blogs',
@@ -37,8 +37,29 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BlogsPage() {
-  const blogs: Blog[] = await getBlogs();
+export default async function BlogsPage({ searchParams }: { searchParams?: { page?: string } }) {
+  const page = Number(searchParams?.page ?? '1') || 1;
 
-  return <CardView content={blogs} />;
+  const blogsPage: PaginationResult<Blog> = await getBlogs(page);
+
+  const content: ObjectView[] = blogsPage.rows.map((b) => ({
+    slug: b.slug,
+    title: b.title,
+    description: b.description,
+    image: b.coverUrl ?? '/not-found.svg',
+    date: b.createdAt,
+    type: 'blog' as const,
+  }));
+
+  const pagination = {
+    rows: content,
+    page: blogsPage.page,
+    pageSize: blogsPage.pageSize,
+    total: blogsPage.total,
+    totalPages: blogsPage.totalPages,
+    hasNext: blogsPage.hasNext,
+    hasPrev: blogsPage.hasPrev,
+  };
+
+  return <ClientInfinite initialContent={content} initialPagination={pagination} endpoint="/api/blogs" />;
 }
