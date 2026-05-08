@@ -39,7 +39,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "^1.0.0",
-    "react-doctor": "^0.0.30",
+    "react-doctor": "^0.0.47",
     "tailwindcss": "^4",
     "typescript": "^6"
   },
